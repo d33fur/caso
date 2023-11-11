@@ -11,10 +11,10 @@ include_directories(${INCLUDE_DIR})
 include_directories(${SOURCE_DIR})
 
 file(GLOB_RECURSE SOURCES
-        ${INCLUDE_DIR}/*.hpp
+        ${INCLUDE_DIR}/*.h
         ${SOURCE_DIR}/*.cpp)
 
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${SOURCE_DIR})
