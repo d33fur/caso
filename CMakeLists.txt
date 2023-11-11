@@ -7,8 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
-include_directories(${INCLUDE_DIR})
-include_directories(${SOURCE_DIR})
+include_directories(${INCLUDE_DIR} ${SOURCE_DIR})
 
 file(GLOB_RECURSE SOURCES
         ${INCLUDE_DIR}/*.h
@@ -16,5 +15,4 @@ file(GLOB_RECURSE SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR})
-target_include_directories(${PROJECT_NAME} PRIVATE ${SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR} ${SOURCE_DIR})

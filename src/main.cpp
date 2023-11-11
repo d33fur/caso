@@ -1,6 +1,5 @@
 #include <iostream>
 #include "derivative.h"
-#include "test.cpp"
 
 int main() {
     derivatives::DerivativeCalculator calculator;
