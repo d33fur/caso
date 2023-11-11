@@ -2,12 +2,12 @@
 #include "derivative.h"
 
 int main() {
-    derivatives::DerivativeCalculator calculator;
-    double x = 2.0;
-    double h = 0.0001;
-    double result = calculator.calculate(x, h);
-
-    std::cout << "Derivative at x = " << x << ": " << result << std::endl;
-
+    std::string equationString = "8x";
+    int orderOfDerivative = 1;
+    double point = 1;
+    std::string variableName = "x";
+    auto result0 = der::derivative(variableName, equationString, orderOfDerivative, point);
+    auto result1 = der::derivative(variableName, equationString, point);
+    std::cout << result0 << ' ' << result1 << std::endl;
     return 0;
 }

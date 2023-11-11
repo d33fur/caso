@@ -1,9 +1,6 @@
 #pragma once
 
-namespace derivatives {
-    class DerivativeCalculator {
-    public:
-        DerivativeCalculator();
-        double calculate(const double x, const double h);
-    };
+namespace der {
+    double derivative(const std::string variableName, const std::string equationString, int orderOfDerivative, double point);
+    double derivative(const std::string variableName, const std::string equationString, double point);
 }
