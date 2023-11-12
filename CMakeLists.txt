@@ -7,8 +7,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
-include_directories(${INCLUDE_DIR} ${SOURCE_DIR})
-
 file(GLOB_RECURSE SOURCES
         ${INCLUDE_DIR}/*.h
         ${SOURCE_DIR}/*.cpp)
