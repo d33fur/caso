@@ -1,2 +1,2 @@
 # course-work-numerical-methods
-Library for calculating the derivatives using numerical methods
+Header-only C++ library for calculating Cauchy problem using numerical methods
