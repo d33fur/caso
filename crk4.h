@@ -15,7 +15,8 @@ namespace crk4 {
             double rungeKutta(const double step) {
                 // TODO дописать реализацию алгоритма рунге кутты
                 // step тут нужен для того, что можно было если что поменять шаг, тем самым увеличить точность
-                odeFunction(arrayOfY);
+                double x;
+                odeFunction(x, y, dydx);
                 return 0;
             }
             
@@ -23,14 +24,14 @@ namespace crk4 {
             double xRight;
             double step;
 
-
+            //double x, std::vector<double>& y, std::vector<double>& dydx
         private:
-            std::function<void(std::vector<double>)> createFunction(const std::string& expression) {
+            std::function<void(double x, std::vector<double>& y, std::vector<double>& dydx)> createFunction(const std::string& expression) {
             // TODO дописать функцию-парсер
-            return [expression](std::vector<double> x) -> void {};
+            return [expression](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {};
             }
 
-            std::function<void(std::vector<double>)> odeFunction;
-            std::vector<double> arrayOfY;
+            std::function<void(double x, std::vector<double>& y, std::vector<double>& dydx)> odeFunction;
+            std::vector<double> y, dydx;
     };
 };
