@@ -4,11 +4,4 @@ project(derivative LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
-
-include_directories(${INCLUDE_DIR})
-
-file(GLOB_RECURSE SOURCES ${SOURCE_DIR}/*.cpp)
-
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} main.cpp derivative.h)
