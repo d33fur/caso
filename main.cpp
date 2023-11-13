@@ -1,16 +1,10 @@
-// #include <iostream>
-#include "derivative.h"
+#include <iostream>
+#include "crk4.h"
 
-// int main() {
-//     std::string equationString = "8x";
-//     int orderOfDerivative = 1;
-//     double point = 1;
-//     std::string variableName = "x";
-//     auto result0 = der::derivative(variableName, equationString, orderOfDerivative, point);
-//     auto result1 = der::derivative(variableName, equationString, point);
-//     std::cout << result0 << ' ' << result1 << std::endl;
-//     return 0;
-// }
+int main() {
+    //crk::ODE a;
+    return 0;
+}
 
 
 // #include <iostream>
@@ -49,61 +43,61 @@
 //     return 0;
 // }
 
-#include <iostream>
-#include <cmath>
+// #include <iostream>
+// #include <cmath>
 
-// Функция, задающая систему уравнений
-void f(double x, const double y[], double result[]) {
-    result[0] = y[1];
-    result[1] = y[2];
-    result[2] = -3 * y[2] - 3 * y[1] - y[0];
-}
+// // Функция, задающая систему уравнений
+// void f(double x, const double y[], double result[]) {
+//     result[0] = y[1];
+//     result[1] = y[2];
+//     result[2] = -3 * y[2] - 3 * y[1] - y[0];
+// }
 
-// Реализация метода Рунге-Кутты 4-го порядка для системы уравнений
-void rungeKutta(double x0, double y0[], double h, double x_target) {
-    double k1[3], k2[3], k3[3], k4[3];
+// // Реализация метода Рунге-Кутты 4-го порядка для системы уравнений
+// void rungeKutta(double x0, double y0[], double h, double x_target) {
+//     double k1[3], k2[3], k3[3], k4[3];
 
-    while (x0 < x_target) {
-        // Вычисление коэффициентов k1
-        f(x0, y0, k1);
+//     while (x0 < x_target) {
+//         // Вычисление коэффициентов k1
+//         f(x0, y0, k1);
 
-        // Вычисление коэффициентов k2
-        double y_temp[3];
-        for (int i = 0; i < 3; ++i) {
-            y_temp[i] = y0[i] + h / 2 * k1[i];
-        }
-        f(x0 + h / 2, y_temp, k2);
+//         // Вычисление коэффициентов k2
+//         double y_temp[3];
+//         for (int i = 0; i < 3; ++i) {
+//             y_temp[i] = y0[i] + h / 2 * k1[i];
+//         }
+//         f(x0 + h / 2, y_temp, k2);
 
-        // Вычисление коэффициентов k3
-        for (int i = 0; i < 3; ++i) {
-            y_temp[i] = y0[i] + h / 2 * k2[i];
-        }
-        f(x0 + h / 2, y_temp, k3);
+//         // Вычисление коэффициентов k3
+//         for (int i = 0; i < 3; ++i) {
+//             y_temp[i] = y0[i] + h / 2 * k2[i];
+//         }
+//         f(x0 + h / 2, y_temp, k3);
 
-        // Вычисление коэффициентов k4
-        for (int i = 0; i < 3; ++i) {
-            y_temp[i] = y0[i] + h * k3[i];
-        }
-        f(x0 + h, y_temp, k4);
+//         // Вычисление коэффициентов k4
+//         for (int i = 0; i < 3; ++i) {
+//             y_temp[i] = y0[i] + h * k3[i];
+//         }
+//         f(x0 + h, y_temp, k4);
 
-        // Обновление значений
-        for (int i = 0; i < 3; ++i) {
-            y0[i] = y0[i] + h * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6;
-        }
+//         // Обновление значений
+//         for (int i = 0; i < 3; ++i) {
+//             y0[i] = y0[i] + h * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6;
+//         }
 
-        x0 = x0 + h;
-    }
+//         x0 = x0 + h;
+//     }
 
-    std::cout << "При x = " << x_target << ", значения y, y', y'' = " << y0[0] << ", " << y0[1] << ", " << y0[2] << std::endl;
-}
+//     std::cout << "При x = " << x_target << ", значения y, y', y'' = " << y0[0] << ", " << y0[1] << ", " << y0[2] << std::endl;
+// }
 
-int main() {
-    double x0 = 0.0;
-    double y0[] = {-1.0, 2.0, 3.0};
-    double h = 0.01;
-    double x_target = 1.0;
+// int main() {
+//     double x0 = 0.0;
+//     double y0[] = {-1.0, 2.0, 3.0};
+//     double h = 0.01;
+//     double x_target = 1.0;
 
-    rungeKutta(x0, y0, h, x_target);
+//     rungeKutta(x0, y0, h, x_target);
 
-    return 0;
-}
+//     return 0;
+// }
