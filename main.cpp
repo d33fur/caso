@@ -2,7 +2,7 @@
 #include "crk4.h"
 
 int main() {
-    //crk::ODE a;
+    crk4::ODE a("a");
     return 0;
 }
 

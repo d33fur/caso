@@ -5,80 +5,32 @@
 #include <cmath>
 #include <vector>
 
-namespace crk {
-    template <typename T, typename R>
+namespace crk4 {
     class ODE {
         public:
-            //ODE() {};
-            ODE(const std::string& equation) {functionHolder.odeFunction = createFunction(equation); }; 
-                //odeFunction = parseEquation(equation); 
-            // template <typename F>
-            // void solve(const std::string& equation, double initialValue, double startTime, double endTime, double stepSize, F method) {
-            //     // Здесь нужно реализовать парсер для equation и создать функцию, представляющую уравнение
-            //     std::function<double(double, double)> odeFunction = parseEquation(equation);
-
-            //     double t = startTime;
-            //     double y = initialValue;
-
-            //     while (t < endTime) {
-            //         // Используем переданный численный метод (method) для решения уравнения
-            //         y = method(odeFunction, t, y, stepSize);
-            //         t += stepSize;
-            //     }
-
-            //     // Вывод результатов или их сохранение
-            //     std::cout << "At t=" << endTime << ", y=" << y << std::endl;
-            // }
-
-            double arrayOfY[0];
+            ODE() : xLeft(0.0), xRight(1.0), step(0.01) {}
+            ODE(const std::string& equationString) {odeFunction = createFunction(equationString); }; 
+            
+            
+            double rungeKutta(const double step) {
+                // TODO дописать реализацию алгоритма рунге кутты
+                // step тут нужен для того, что можно было если что поменять шаг, тем самым увеличить точность
+                odeFunction(arrayOfY);
+                return 0;
+            }
+            
             double xLeft;
             double xRight;
             double step;
 
 
         private:
-            template <typename T, typename R>
-            std::function<R(T)> createFunction(const std::string& expression) {return parseEquation(expression); }
-            // template <typename T, typename R>
-            // std::function<R(T)> createFunction() {
-            //     return [](T x) -> R {
-            //         // Ваш код здесь
-            //         // Пример: сложение двух значений и преобразование результата к типу R
-            //         return static_cast<R>(x);
-            //     };
-            // }
-            //template <typename T, typename R>
-            //std::function<R(T)> odeFunc;
+            std::function<void(std::vector<double>)> createFunction(const std::string& expression) {
+            // TODO дописать функцию-парсер
+            return [expression](std::vector<double> x) -> void {};
+            }
 
-            template <typename U, typename V>
-            class FunctionHolder {
-                public:
-                    std::function<U(V)> odeFunction;
-            };
-
-            FunctionHolder<T, R> functionHolder;
-
-
-            class Parser {
-                public:
-                    Parser() {};
-                    Parser(const std::string& equation) {};
-
-                    std::function<double(double, double)> parseEquation(const std::string& equation) {
-                        // Лямбда-функция для вычисления значения выражения
-                        auto lambda = [expression](T x) -> R {
-                            // Пример: простая реализация, использующая std::stringstream
-                            std::stringstream ss(expression);
-                            T value;
-                            ss >> value;
-
-                            // Пример: вычисление значения, например, квадрата числа
-                            return static_cast<R>(value * value);
-                        };
-
-                        return lambda;
-                        return [](double x, double y) { return std::sin(x); };
-                };
-            }; 
+            std::function<void(std::vector<double>)> odeFunction;
+            std::vector<double> arrayOfY;
     };
 };
