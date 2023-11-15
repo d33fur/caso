@@ -71,10 +71,10 @@ namespace crk4 {
 
         protected:
             std::set<std::string> symbolsOfStringEquation;
-            std::vector<double> y; // вектор производных
 
         private:
             odeF odeFunction; // функция или система уравнения
+            std::vector<double> y; // вектор производных
             
             odeF createFunction(const std::string& expression) {
                 std::string tempStr = expression, equation = tempStr;
@@ -101,19 +101,18 @@ namespace crk4 {
                         xStep = std::stod(startData.substr(hSymbol + 1, startData.length() - hSymbol - 1));
                         xLeft = std::stod(startData.substr(openSqrBracket + 1, semicolon - openSqrBracket - 1));
                         xRight = std::stod(startData.substr(semicolon + 1, closeSqrBracket - semicolon - 1));
-                        y.push_back(std::stod(startData.substr(equally + 1, comma - equally - 1)));
+                        y0.push_back(std::stod(startData.substr(equally + 1, comma - equally - 1)));
                         symbolsOfStringEquation.insert(startData.substr(pos, openParenthesis - pos));
                         pos++;
                     }
                 }
-
+                
                 int n = symbolsOfStringEquation.size();
                 return [equation, n](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
                     // TODO дописать функцию-парсер
-                    for(int i = 0; i < n; i++) {
-                        dydx[i] = y[i];
-                    }
-
+                    dydx[0] = y[1];
+                    dydx[1] = y[2];
+                    dydx[2] = -3 * y[2] - 3 * y[1] - y[0];
                 };
             }
             
