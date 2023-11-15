@@ -87,32 +87,53 @@ namespace crk4 {
                     std::string startData = tempStr.substr(found + 1, tempStr.length() - found - 1);
                     size_t pos = 0;
                     
+                    if((startData.find(symbol, pos) == std::string::npos) && startData.length() > 0) {
+                        throw std::invalid_argument("Invalid variable symbol");
+                    }
+
                     // Поиск всех вхождений подстроки "y" в строке
-                    while ((pos = startData.find('y', pos)) != std::string::npos) {
-                        pos = startData.find('y', pos);
+                    while ((pos = startData.find(symbol, pos)) != std::string::npos) {
+                        pos = startData.find(symbol, pos);
+
                         size_t openParenthesis = startData.find('(', pos);
                         size_t closePaParenthesis = startData.find(')', pos);
-                        size_t equally = startData.find('=', openParenthesis);
-                        size_t comma = startData.find(',', equally);
-                        size_t openSqrBracket = startData.find('[', pos);
-                        size_t closeSqrBracket = startData.find(']', openSqrBracket);
-                        size_t semicolon = startData.find(';', openSqrBracket);
-                        size_t hSymbol = startData.find('h', closeSqrBracket) + 1;
-                        xStep = std::stod(startData.substr(hSymbol + 1, startData.length() - hSymbol - 1));
-                        xLeft = std::stod(startData.substr(openSqrBracket + 1, semicolon - openSqrBracket - 1));
-                        xRight = std::stod(startData.substr(semicolon + 1, closeSqrBracket - semicolon - 1));
-                        y0.push_back(std::stod(startData.substr(equally + 1, comma - equally - 1)));
                         symbolsOfStringEquation.insert(startData.substr(pos, openParenthesis - pos));
+
+                        try {
+                            size_t equally = startData.find('=', openParenthesis);
+                            size_t comma = startData.find(',', equally);
+                            y0.push_back(std::stod(startData.substr(equally + 1, comma - equally - 1)));
+                        } catch(const std::exception e) {
+                            //std::cerr << e.what() << std::endl;
+                        }
+                        
+                        try {
+                            size_t openSqrBracket = startData.find('[', pos);
+                            size_t closeSqrBracket = startData.find(']', openSqrBracket);
+                            size_t semicolon = startData.find(';', openSqrBracket);
+                            xLeft = std::stod(startData.substr(openSqrBracket + 1, semicolon - openSqrBracket - 1));
+                            xRight = std::stod(startData.substr(semicolon + 1, closeSqrBracket - semicolon - 1));
+                        } catch(const std::exception e) {
+                            //std::cerr << e.what() << std::endl;
+                        }
+
+                        try {
+                            size_t hSymbol = startData.find('h', pos) + 1;
+                            xStep = std::stod(startData.substr(hSymbol + 1, startData.length() - hSymbol - 1));
+                        } catch(const std::exception e) {
+                            //std::cerr << e.what() << std::endl;
+                        }
+
                         pos++;
                     }
                 }
                 
-                int n = symbolsOfStringEquation.size();
+                int n = y0.size();
                 return [equation, n](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
                     // TODO дописать функцию-парсер
                     dydx[0] = y[1];
                     dydx[1] = y[2];
-                    dydx[2] = -3 * y[2] - 3 * y[1] - y[0];
+                    dydx[y.size()-1] = -3 * y[2] - 3 * y[1] - y[0];
                 };
             }
             

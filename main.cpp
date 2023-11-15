@@ -9,7 +9,7 @@ void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
 int main() {
     // crk4::ODE b(f, {-1, 2, 3}, 0, 1, 0.01);
 
-    std::string str = "y'''+3y''+3y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1], h = 0.01";
+    std::string str = "y'''+3y''+3y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1], h = 0.01 "; //
     crk4::ODE b(str, 'y');
     std::vector<double> ans = b.rungeKutta4();
     for(auto i : ans) {
