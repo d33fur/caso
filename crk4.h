@@ -5,6 +5,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 namespace crk4 {
     class ODE {
@@ -67,11 +68,14 @@ namespace crk4 {
             double xRight; // правая граница x
             double xStep; // шаг
             std::vector<double> y0; // начальные y
-            
-        private:
-            odeF odeFunction; // функция или система уравнения
+
+        protected:
+            std::set<std::string> symbolsOfStringEquation;
             std::vector<double> y; // вектор производных
 
+        private:
+            odeF odeFunction; // функция или система уравнения
+            
             odeF createFunction(const std::string& expression) {
                 std::string tempStr = expression, equation = tempStr;
 
@@ -80,19 +84,36 @@ namespace crk4 {
 
                 if (found != std::string::npos) {
                     equation = tempStr.substr(0, found);
-                    std::string startData = tempStr.substr(found + 1, tempStr.length());
-                    std::cout << startData << std::endl;
-                    for( int i = 0; i < startData.length(); i++) {
-                        
+                    std::string startData = tempStr.substr(found + 1, tempStr.length() - found - 1);
+                    size_t pos = 0;
+                    
+                    // Поиск всех вхождений подстроки "y" в строке
+                    while ((pos = startData.find('y', pos)) != std::string::npos) {
+                        pos = startData.find('y', pos);
+                        size_t openParenthesis = startData.find('(', pos);
+                        size_t closePaParenthesis = startData.find(')', pos);
+                        size_t equally = startData.find('=', openParenthesis);
+                        size_t comma = startData.find(',', equally);
+                        size_t openSqrBracket = startData.find('[', pos);
+                        size_t closeSqrBracket = startData.find(']', openSqrBracket);
+                        size_t semicolon = startData.find(';', openSqrBracket);
+                        size_t hSymbol = startData.find('h', closeSqrBracket) + 1;
+                        xStep = std::stod(startData.substr(hSymbol + 1, startData.length() - hSymbol - 1));
+                        xLeft = std::stod(startData.substr(openSqrBracket + 1, semicolon - openSqrBracket - 1));
+                        xRight = std::stod(startData.substr(semicolon + 1, closeSqrBracket - semicolon - 1));
+                        y.push_back(std::stod(startData.substr(equally + 1, comma - equally - 1)));
+                        symbolsOfStringEquation.insert(startData.substr(pos, openParenthesis - pos));
+                        pos++;
                     }
                 }
-                std::cout << equation;
-                return [equation](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
+
+                int n = symbolsOfStringEquation.size();
+                return [equation, n](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
                     // TODO дописать функцию-парсер
-                    // int n = 3;
-                    // for(int i = 0; i < n; i++) {
-                    //     dydx[i] = y[i];
-                    // }
+                    for(int i = 0; i < n; i++) {
+                        dydx[i] = y[i];
+                    }
+
                 };
             }
             

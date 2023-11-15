@@ -14,5 +14,6 @@ int main() {
     // }
     std::string str = "y'''+3y''+3y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1], h = 0.01";
     crk4::ODE b(str, 'y');
+    //std::cout << b.xStep  << std::endl;
     return 0;
 }
