@@ -12,14 +12,14 @@ namespace crk4 {
 
         public:
             ODE() {}
-            ODE(const std::string& equationString) 
-                : odeFunction(createFunction(equationString)) {}
-            ODE(const std::string& equationString, double xStep) 
-                : odeFunction(createFunction(equationString)), xStep(xStep) {}
-            ODE(const std::string& equationString, std::vector<double> y0, double xLeft, double xRight) 
-                : odeFunction(createFunction(equationString)), y0(y0), xLeft(xLeft), xRight(xRight) {}
-            ODE(const std::string& equationString, std::vector<double> y0, double xLeft, double xRight, double xStep) 
-                : odeFunction(createFunction(equationString)), y0(y0), xLeft(xLeft), xRight(xRight), xStep(xStep) {}
+            ODE(const std::string& equationString, char symbol) 
+                : odeFunction(createFunction(equationString)), symbol(symbol) {}
+            ODE(const std::string& equationString, double xStep, char symbol) 
+                : odeFunction(createFunction(equationString)), xStep(xStep), symbol(symbol) {}
+            ODE(const std::string& equationString, std::vector<double> y0, double xLeft, double xRight, char symbol) 
+                : odeFunction(createFunction(equationString)), y0(y0), xLeft(xLeft), xRight(xRight), symbol(symbol) {}
+            ODE(const std::string& equationString, std::vector<double> y0, double xLeft, double xRight, double xStep, char symbol) 
+                : odeFunction(createFunction(equationString)), y0(y0), xLeft(xLeft), xRight(xRight), xStep(xStep), symbol(symbol) {}
 
             ODE(const odeF& odeFunction)
                 : odeFunction(odeFunction) {}
@@ -29,7 +29,7 @@ namespace crk4 {
                 : odeFunction(odeFunction), y0(y0), xLeft(xLeft), xRight(xRight) {}
             ODE(const odeF& odeFunction, std::vector<double> y0, double xLeft, double xRight, double xStep) 
                 : odeFunction(odeFunction), y0(y0), xLeft(xLeft), xRight(xRight), xStep(xStep) {}
-                
+
             ~ODE(){}
             
             void setEquationWithString(const std::string& equationString) {
@@ -40,7 +40,7 @@ namespace crk4 {
                 odeFunction = inputOdeFunction;
             }
 
-            void rungeKutta4(double xStep = 0.01) { // опционально xStep в аргумент
+            std::vector<double> rungeKutta4(double xStep = 0.01) { // опционально xStep в аргумент
                 y = y0;
 
                 while (xLeft < xRight) {
@@ -58,25 +58,37 @@ namespace crk4 {
                     }
 
                     xLeft += xStep;
-
-                    // Вывод результатов
-                    std::cout << "x = " << xLeft << ", y = " << y[0] << ", y' = " << y[1] << ", y'' = " << y[2] << std::endl;
                 }
+                return y;
             }
+
+            char symbol;
             double xLeft; // левая граница x
             double xRight; // правая граница x
             double xStep; // шаг
             std::vector<double> y0; // начальные y
             
-
         private:
             odeF odeFunction; // функция или система уравнения
-            std::vector<double> y, dydx; // вектор производных и замен этих же самых производных
+            std::vector<double> y; // вектор производных
 
             odeF createFunction(const std::string& expression) {
-            // TODO дописать функцию-парсер
-            
-                return [expression](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
+                std::string tempStr = expression, equation = tempStr;
+
+                tempStr.erase(std::remove_if(tempStr.begin(), tempStr.end(), ::isspace), tempStr.end());
+                size_t found = tempStr.find(',');
+
+                if (found != std::string::npos) {
+                    equation = tempStr.substr(0, found);
+                    std::string startData = tempStr.substr(found + 1, tempStr.length());
+                    std::cout << startData << std::endl;
+                    for( int i = 0; i < startData.length(); i++) {
+                        
+                    }
+                }
+                std::cout << equation;
+                return [equation](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
+                    // TODO дописать функцию-парсер
                     // int n = 3;
                     // for(int i = 0; i < n; i++) {
                     //     dydx[i] = y[i];

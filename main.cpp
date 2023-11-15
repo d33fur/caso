@@ -7,10 +7,12 @@ void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
 }
 
 int main() {
-    //crk4::ODE a("a", 0.1);
-    crk4::ODE b(f, {-1, 2, 3}, 0, 1, 0.01);
-    b.rungeKutta4();
-    //crk4::ODE a("a", 2.0);
-    //std::cout << a.xStep;
+    // crk4::ODE b(f, {-1, 2, 3}, 0, 1, 0.01);
+    // std::vector<double> ans = b.rungeKutta4();
+    // for(auto i : ans) {
+    //     std::cout << i << ' ';
+    // }
+    std::string str = "y'''+3y''+3y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1], h = 0.01";
+    crk4::ODE b(str, 'y');
     return 0;
 }
