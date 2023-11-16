@@ -1,5 +1,5 @@
-# 1. About crk4
-This is header-only C++ library for solving Cauchy problem using Runge-Kutta method.
+# 1. About caso (CAuchy SOlver)
+This is header-only C++ library for solving Cauchy problem using numerical method.
 
 # 2. Usage
-Just add ```crk4.h``` into your project.
+Just add ```caso.h``` into your project.

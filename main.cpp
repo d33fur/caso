@@ -1,5 +1,5 @@
 #include <iostream>
-#include "crk4.h"
+#include "caso.h"
 void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
     dydx[0] = y[1];
     dydx[1] = y[2];
@@ -15,14 +15,23 @@ void f1(double x, std::vector<double>& y, std::vector<double>& dydx) {
 }
 
 int main() {
-    //crk4::ODE b(f, {-1, 2, 3}, 0, 1, 0.01);
+    // crk4::ODE b(f, {-1, 2, 3}, 0, 1);
+    // b.setButcherTableau(crk4::RungeKutta4);
+    //b.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.0123);
+    //std::vector<double> ansb = b.solve(0.01);
 
+    //crk4::ODE bb;
+    
     std::string str = "y'+3*y=0, y(0)=-1, x[0;1], h = 0.01 "; //
-    crk4::ODE b(str, 'y');
-    std::vector<double> ans = b.rungeKutta4();
+    caso::ODE a(str, 'y');
+    a.setButcherTableau(caso::RungeKutta4);
+    std::vector<double> ans = a.solve();
+    std::cout << ans[0] << std::endl;
 
-    for(auto i : ans) {
-        std::cout << i << ' ';
-    }
+    
+
+    // for(auto i : ansb) {
+    //     std::cout << i << ' ';
+    // }
     return 0;
 }
