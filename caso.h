@@ -12,10 +12,11 @@
 namespace caso {
 
     enum ButcherTableau {
-                                RungeKutta4,
-                                RosenbrockGilbert4,
-                                DormanPrince8,
-                            };
+
+        RungeKutta4,
+        RosenbrockGilbert4,
+        DormanPrince8,
+    };
 
 
     class ODE {
