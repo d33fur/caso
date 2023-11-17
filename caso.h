@@ -25,11 +25,11 @@ namespace caso {
             ODE () = default;
             ODE(const std::string& equation, char symbolOfVariable)
                 : odeSystem(createSystem(equation)), symbol(symbolOfVariable) {}
-            ODE(const std::string& equation, double step, char symbolOfVariable) 
+            ODE(const std::string& equation, char symbolOfVariable, double step) 
                 : odeSystem(createSystem(equation)), xStep(step), symbol(symbolOfVariable) {}
-            ODE(const std::string& equation, std::vector<double> yStartValues, double xLeft, double xRight, char symbolOfVariable) 
+            ODE(const std::string& equation, char symbolOfVariable, std::vector<double> yStartValues, double xLeft, double xRight) 
                 : odeSystem(createSystem(equation)), yStart(yStartValues), xLeft(xLeft), xRight(xRight), symbol(symbolOfVariable) {}
-            ODE(const std::string& equation, std::vector<double> yStartValues, double xLeft, double xRight, double step, char symbolOfVariable) 
+            ODE(const std::string& equation, char symbolOfVariable, std::vector<double> yStartValues, double xLeft, double xRight, double step) 
                 : odeSystem(createSystem(equation)), yStart(yStartValues), xLeft(xLeft), xRight(xRight), xStep(step), symbol(symbolOfVariable) {}
 
             ODE(const odeS& odeSystem)

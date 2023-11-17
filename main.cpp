@@ -17,7 +17,7 @@ void f1(double x, std::vector<double>& y, std::vector<double>& dydx) {
 int main() {
     // crk4::ODE b(f, {-1, 2, 3}, 0, 1);
     // b.setButcherTableau(crk4::RungeKutta4);
-    //b.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.0123);
+    //b.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
     //std::vector<double> ansb = b.solve(0.01);
 
     //crk4::ODE bb;
