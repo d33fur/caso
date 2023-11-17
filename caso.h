@@ -175,50 +175,47 @@ namespace caso {
 
             odeS parseSystemFromString(std::string equation) {
                 return [equation](double x, std::vector<double>& y, std::vector<double>& dydx) -> void {
-                    std::map<int, int> C; //степень производной - ключ, коэффициент - значение
-                    int result = 0, derivate = 0, coefficient, end_iter=0;
-                    for (int i = equation.length()-1; i >= 0; i--){
-                        if (equation[i]=='='){ //нахождение правой части уравнения
-                            std::string answer = equation.substr(i+1, equation.length()-1);
+                    std::map<size_t, int64_t> C; //степень производной - ключ, коэффициент - значение
+                    int64_t result = 0, coefficient;
+                    size_t derivate = 0, endIter = 0;
+                    for (size_t i = equation.length()-1; i >= 0; i--){
+                        if (equation[i] == '='){ //нахождение правой части уравнения
+                            std::string answer = equation.substr(i + 1, equation.length() - 1);
                             result = std::stod(answer);
                         }
                         if (equation[i] == '\''){
                             derivate++;
                         }
                         if (equation[i] == 'y'){
-                            if (equation[i-1]== '+' || equation[i-1] == '-' || equation[i-1] == '/' || i == 0){
+                            if (equation[i - 1] == '+' || equation[i - 1] == '-' || equation[i - 1] == '/' || i == 0){
                                 C[derivate] = 1;
                                 derivate = 0;
                             } else if (equation[i-1] == '*'){
-                                end_iter = i-2;
+                                endIter = i - 2;
                             } else{
-                                end_iter = i - 1;
+                                endIter = i - 1;
                             }
                         }
-                        if ((equation[i]== '+' || equation[i] == '-' || equation[i] == '/' || equation[i] == '*') && equation[i+1] != 'y'){
-                            std::string coef_string = equation.substr(i + 1, end_iter - i);
-                            coefficient = std::stod(coef_string);
+                        std::vector<char> operators = {'+', '-', '/', '*'};
+                        if ((std::find(operators.begin(), operators.end(), equation[i]) != operators.end()) && equation[i + 1] != 'y'){
+                            std::string coefString = equation.substr(i + 1, endIter - i);
+                            coefficient = std::stod(coefString);
                             C[derivate] = coefficient;
                             derivate = 0;
                             coefficient = 0;
-                            end_iter = 0;
+                            endIter = 0;
                         }
                     }
-                    //dydx[y.size()-1] = -3 * y[2] - 3 * y[1] - y[0];
-
-                    for (int i = 0; i < y.size()-1; i++){
-                        dydx[i]=y[i+1];
+                    for (size_t i = 0; i < y.size()-1; i++){
+                        dydx[i]=y[i + 1];
                     }
-                    int iterator = 0;
+                    size_t iter = 0;
                     for (auto it = C.begin(); it != std::prev(C.end()); it++){
-                        dydx[y.size()-1] += (-1)*y[iterator]*it->second;
-                        iterator++;
+                        dydx[y.size()-1] += (-1)*y[iter]*it->second;
+                        iter++;
                     }
                     auto itl = C.end();
-                    dydx[C.size()-1]/=itl->second;
-                    for (int i = 0; i < dydx.size(); i++){
-                        //std::cout<<dydx[i]<<std::endl;
-                    }
+                    dydx[C.size() - 1]/=itl->second;
                 };
             }
 
