@@ -7,9 +7,7 @@ Let's take $$y''' + 3y'' + 3y' + y = 0, \quad y(0) = -1, \quad y'(0) = 2, \quad 
 Add ```#include "caso.h"``` into your project.
 ## 2.1 
 First of all you need to initialize an instance of the ODE class.
-You can do this
-
-### With system function:
+You can do this with function for system of equations:
 ```Cpp
 void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
     dydx[0] = y[1];
@@ -30,33 +28,6 @@ myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ```Cpp
 crk4::ODE myEquation;
 myEquation.setEquationWithSystem(f);
-myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
-```
-
-### With string equation:
-```Cpp
-std::string strEquation = "y'''+3*y''+3*y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1], h=0.01";
-crk4::ODE myEquation(str, 'y');
-```
-```Cpp
-std::string strEquation = "y'''+3*y''+3*y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1]";
-crk4::ODE myEquation(str, 'y');
-```
-```Cpp
-std::string strEquation = "y'''+3*y''+3*y'+y=0, y(0)=-1, y'(0)=2, y''(0)=3, x[0;1]";
-crk4::ODE myEquation(str, 'y', 0.01);
-```
-```Cpp
-std::string strEquation = "y'''+3*y''+3*y'+y=0";
-crk4::ODE myEquation(str, 'y', {-1, 2, 3}, 0, 1);
-```
-```Cpp
-std::string strEquation = "y'''+3*y''+3*y'+y=0";
-crk4::ODE myEquation(str, 'y', {-1, 2, 3}, 0, 1, 0.01);
-```
-```Cpp
-std::string strEquation = "y'''+3*y''+3*y'+y=0";
-crk4::ODE myEquation(str, 'y');
 myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ```
 

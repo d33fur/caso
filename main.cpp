@@ -15,23 +15,12 @@ void f1(double x, std::vector<double>& y, std::vector<double>& dydx) {
 }
 
 int main() {
-    // crk4::ODE b(f, {-1, 2, 3}, 0, 1);
-    // b.setButcherTableau(crk4::RungeKutta4);
+    caso::ODE b(f, {-1, 2, 3}, 0, 1);
+    b.setButcherTableau(caso::RungeKutta4);
     //b.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
-    //std::vector<double> ansb = b.solve(0.01);
-
-    //crk4::ODE bb;
-    
-    std::string str = "y'+3*y=0, y(0)=-1, x[0;1], h = 0.01 "; //
-    caso::ODE a(str, 'y');
-    a.setButcherTableau(caso::RungeKutta4);
-    std::vector<double> ans = a.solve();
-    std::cout << ans[0] << std::endl;
-
-    
-
-    // for(auto i : ansb) {
-    //     std::cout << i << ' ';
-    // }
+    std::vector<double> ansb = b.solve(0.01);
+    for(auto i : ansb) {
+        std::cout << i << ' ';
+    }
     return 0;
 }
