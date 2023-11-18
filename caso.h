@@ -13,11 +13,12 @@ namespace caso {
         RungeKutta4,
         RosenbrockGilbert4,
         DormanPrince8,
+        AdamsBashforth4,
     };
-
 
     class ODE {
         using odeS = std::function<void(double x, std::vector<double>& y, std::vector<double>& dydx)>;
+        using IterFunction = void (caso::ODE::*)();
 
     public:
         ODE () = default;
@@ -43,14 +44,34 @@ namespace caso {
         }
 
         void setButcherTableau(ButcherTableau tableName) {
-            if (butcherTables.find(tableName) != butcherTables.end()) {
-                currentButcherTableau = butcherTables[tableName];
+            if (butcherTablesMap.find(tableName) != butcherTablesMap.end()) {
+                currentButcherTableau = butcherTablesMap[tableName];
             } else {
                 throw std::invalid_argument("Invalid Butcher table name.");
             }
         }
 
-        std::vector<double> solve(double step = -1.0) {
+        std::vector<double> rungeKutta(double step = -1.0) {
+            currentIterFunction = &caso::ODE::rungeKuttaIteration;
+            return solveMethod(step);
+        }
+
+        std::vector<double> euler(double step = -1.0) {
+            currentIterFunction = &caso::ODE::eulerIteration;
+            setButcherTableau(caso::RungeKutta4);
+            return solveMethod(step);
+        }
+
+        std::vector<double> adamsBashforth(double step = -1.0) {
+            currentIterFunction = &caso::ODE::adamsBashforthIteration;
+            setButcherTableau(caso::AdamsBashforth4);
+            return solveMethod(step);
+        }
+
+
+
+    private:
+        std::vector<double> solveMethod(double step) {
             if (step > 0) {
                 xStep = step;
             }
@@ -59,38 +80,80 @@ namespace caso {
             y = yStart;
 
             while (xLeft < xRight) {
-                rungeKutta4Iteration();
-                xLeft += xStep;
+                (this->*currentIterFunction)();
+                if(currentIterFunction == &caso::ODE::adamsBashforthIteration) {
+                    xLeft += 3 * xStep;
+                } else {
+                    xLeft += xStep;
+                }
             }
 
             return y;
         }
 
-
-
-    private:
-        void rungeKutta4Iteration() {
+        void rungeKuttaIteration() {
             std::vector<double> temp(y.size());
-            std::vector<std::vector<double>> k(4, std::vector<double>(y.size()));
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(y.size()));
+            computeK(k, temp);
 
-            for (size_t i = 0; i < k.size(); i++) {
-                temp = y;
-                addVectorByScalar(temp, k[i], currentButcherTableau[i][0] * xStep);
-                odeSystem(xLeft + currentButcherTableau[i][0] * xStep, temp, k[i]);
-            }
-
-            for (size_t i = 0; i < y.size(); ++i) {
-                y[i] += (xStep / 6.0) * (k[0][i] + 2 * k[1][i] + 2 * k[2][i] + k[3][i]);
+            for (size_t i = 0; i < y.size(); i++) {
+                y[i] += computeWeightedSum(k, i);
             }
         }
 
-        void addVectorByScalar(std::vector<double>& result, std::vector<double>& vec, double scalar) {
+        void eulerIteration() {
+            std::vector<double> temp(y.size());
+            odeSystem(xLeft, y, temp);
+
+            for (size_t i = 0; i < y.size(); i++) {
+                y[i] += xStep * temp[i];
+            }
+        }
+
+        void adamsBashforthIteration() {
+            std::vector<double> temp(y.size());
+            std::vector<std::vector<double>> prevY(currentButcherTableau.size() - 1, std::vector<double>(y.size()));
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(y.size()));
+            
+            computePreviousY(prevY, temp);
+            computeK(k, temp);
+
+            for (size_t i = 0; i < y.size(); i++) {
+                y[i] += computeWeightedSum(k, i);
+            }
+        }
+
+        void computePreviousY(std::vector<std::vector<double>>& prevY, std::vector<double>& temp) {
+            for (size_t i = 0; i < prevY.size(); i++) {
+                temp = y;
+                addVectorByScalar(temp, prevY[i], currentButcherTableau[i][0] * xStep);
+                computeK(prevY, temp);
+            }
+        }
+
+        void computeK(std::vector<std::vector<double>>& kContainer, std::vector<double>& temp) {
+            for (size_t i = 0; i < kContainer.size(); i++) {
+                temp = y;
+                addVectorByScalar(temp, kContainer[i], currentButcherTableau[i][0] * xStep);
+                odeSystem(xLeft + currentButcherTableau[i][0] * xStep, temp, kContainer[i]);
+            }
+        }
+
+        double computeWeightedSum(const std::vector<std::vector<double>>& k, size_t index) const {
+            double sum = 0.0;
+            for (size_t j = 0; j < k.size(); j++) {
+                sum += currentButcherTableau.back()[j] * k[j][index];
+            }
+            return xStep * sum;
+        }
+
+        void addVectorByScalar(std::vector<double>& result, const std::vector<double>& vec, double scalar) {
             std::transform(result.begin(), result.end(), vec.begin(), result.begin(),
                            [scalar](double i1, double i2) { return i1 + i2 * scalar; });
         }
 
-        void validateParameters() const { // добавить проверку на наличие функции-системы
-            if (odeSystem) {
+        void validateParameters() const {
+            if (!odeSystem) {
                 throw std::invalid_argument("Function for system of equations is not set.");
             }
 
@@ -124,44 +187,54 @@ namespace caso {
         }
 
 
+        odeS odeSystem;
+        IterFunction currentIterFunction = nullptr;
         std::vector<std::vector<double>> currentButcherTableau;
         std::vector<double> yStart, y;
         double xLeft = NAN;
         double xRight = NAN;
         double xStep = NAN;
-        odeS odeSystem;
 
-        std::unordered_map<ButcherTableau, std::vector<std::vector<double>>> butcherTables = {
-                {
-                        RungeKutta4, {
-                                             {0.},
-                                             {1. / 2., 1. / 2.},
-                                             {1. / 2., 0., 1. / 2.},
-                                             {1., 0., 0., 1.},
-                                             {1. / 6., 1. / 3., 1. / 3., 1. / 6.}
-                                     }
-                },
-                {
-                        RosenbrockGilbert4, {
-                                             {0.},
-                                             {1. / 4., 1. / 4.},
-                                             {1. / 4., 1. / 2., 1. / 4.},
-                                             {1. / 2., 0., 1. / 2., 1. / 4.},
-                                             {0., 1. / 6., 1. / 3., 1. / 3., 1. / 6.}
-                                     }
-                },
-                {
-                        DormanPrince8, {
-                                             {0.},
-                                             {1. / 5., 1. / 5.},
-                                             {3. / 10., 3. / 40., 9. / 40.},
-                                             {4. / 5., 44. / 45., -56. / 15., 32. / 9.},
-                                             {8. / 9., 19372. / 6561., -31760. / 2187., 10448. / 6561., 0., 25360. / 2187.},
-                                             {1., 9017. / 3168., -355. / 33., 46732. / 5247., 49. / 176., -5103. / 18656., 0., 5. / 143.},
-                                             {1. / 2., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.},
-                                             {0., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.}
-                                     }
+        std::unordered_map<ButcherTableau, std::vector<std::vector<double>>> butcherTablesMap = {
+            {
+                RungeKutta4, {
+                    {0.},
+                    {1. / 2., 1. / 2.},
+                    {1. / 2., 0., 1. / 2.},
+                    {1., 0., 0., 1.},
+                    {1. / 6., 1. / 3., 1. / 3., 1. / 6.}
                 }
+            },
+            {
+                RosenbrockGilbert4, {
+                    {0.},
+                    {1. / 4., 1. / 4.},
+                    {1. / 4., 1. / 2., 1. / 4.},
+                    {1. / 2., 0., 1. / 2., 1. / 4.},
+                    {0., 1. / 6., 1. / 3., 1. / 3., 1. / 6.}
+                }
+            },
+            {
+                AdamsBashforth4, {
+                    {0.},
+                    {3. / 2., -1. / 2.},
+                    {23. / 12., -4. / 3., 5. / 12.},
+                    {55. / 24., -59. / 24., 37. / 24., -9. / 24.},
+                    {1901. / 720., -2774. / 720., 2616. / 720., -1274. / 720., 251. / 720.}
+                }
+            },
+            {
+                DormanPrince8, {
+                    {0.},
+                    {1. / 5., 1. / 5.},
+                    {3. / 10., 3. / 40., 9. / 40.},
+                    {4. / 5., 44. / 45., -56. / 15., 32. / 9.},
+                    {8. / 9., 19372. / 6561., -31760. / 2187., 10448. / 6561., 0., 25360. / 2187.},
+                    {1., 9017. / 3168., -355. / 33., 46732. / 5247., 49. / 176., -5103. / 18656., 0., 5. / 143.},
+                    {1. / 2., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.},
+                    {0., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.}
+                }
+            }
         };
     };
 };
