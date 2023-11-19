@@ -11,9 +11,7 @@ namespace caso {
 
     enum ButcherTableau {
         RungeKutta4,
-        RosenbrockGilbert4,
         DormanPrince8,
-        AdamsBashforth4,
     };
 
     class ODE {
@@ -61,12 +59,12 @@ namespace caso {
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
-
-        std::vector<double> adamsBashforth(double step = -1.0) {
-            currentIterFunction = &caso::ODE::adamsBashforthIteration;
-            setButcherTableau(caso::AdamsBashforth4);
-            return solveMethod(step);
-        }
+        // добавить эйлера бэквардс и эйлера форвард, карч проверить метод эйлера который щас тут и к как он полностью называется
+        // hein's method 
+        // midpoint method
+        // bogacki-shampine method
+        // переделать дорман принс метод то есть переделать рунге кутту
+        // implicit midpoint method
 
 
 
@@ -81,11 +79,7 @@ namespace caso {
 
             while (xLeft < xRight) {
                 (this->*currentIterFunction)();
-                if(currentIterFunction == &caso::ODE::adamsBashforthIteration) {
-                    xLeft += 3 * xStep;
-                } else {
-                    xLeft += xStep;
-                }
+                xLeft += xStep;
             }
 
             return y;
@@ -110,26 +104,13 @@ namespace caso {
             }
         }
 
-        void adamsBashforthIteration() {
-            std::vector<double> temp(y.size());
-            std::vector<std::vector<double>> prevY(currentButcherTableau.size() - 1, std::vector<double>(y.size()));
-            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(y.size()));
-            
-            computePreviousY(prevY, temp);
-            computeK(k, temp);
-
-            for (size_t i = 0; i < y.size(); i++) {
-                y[i] += computeWeightedSum(k, i);
-            }
-        }
-
-        void computePreviousY(std::vector<std::vector<double>>& prevY, std::vector<double>& temp) {
-            for (size_t i = 0; i < prevY.size(); i++) {
-                temp = y;
-                addVectorByScalar(temp, prevY[i], currentButcherTableau[i][0] * xStep);
-                computeK(prevY, temp);
-            }
-        }
+        // void computePreviousY(std::vector<std::vector<double>>& prevY, std::vector<double>& temp) {
+        //     for (size_t i = 0; i < prevY.size(); i++) {
+        //         temp = y;
+        //         addVectorByScalar(temp, prevY[i], currentButcherTableau[i][0] * xStep);
+        //         computeK(prevY, temp);
+        //     }
+        // }
 
         void computeK(std::vector<std::vector<double>>& kContainer, std::vector<double>& temp) {
             for (size_t i = 0; i < kContainer.size(); i++) {
@@ -203,24 +184,6 @@ namespace caso {
                     {1. / 2., 0., 1. / 2.},
                     {1., 0., 0., 1.},
                     {1. / 6., 1. / 3., 1. / 3., 1. / 6.}
-                }
-            },
-            {
-                RosenbrockGilbert4, {
-                    {0.},
-                    {1. / 4., 1. / 4.},
-                    {1. / 4., 1. / 2., 1. / 4.},
-                    {1. / 2., 0., 1. / 2., 1. / 4.},
-                    {0., 1. / 6., 1. / 3., 1. / 3., 1. / 6.}
-                }
-            },
-            {
-                AdamsBashforth4, {
-                    {0.},
-                    {3. / 2., -1. / 2.},
-                    {23. / 12., -4. / 3., 5. / 12.},
-                    {55. / 24., -59. / 24., 37. / 24., -9. / 24.},
-                    {1901. / 720., -2774. / 720., 2616. / 720., -1274. / 720., 251. / 720.}
                 }
             },
             {
