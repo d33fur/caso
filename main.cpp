@@ -28,22 +28,51 @@ void f4(std::vector<double>& dydx, std::vector<double>& y, double x) {
 }
 
 int main() {
+    std::cout << std::endl << "RungeKutta4" << std::endl;
+
     std::vector<double> y = {2};
     double xl = 1, xr = 3, xs = 0.25;
 
-    // caso::ODE a(f2, y, xl, xr, xs);
-    // a.setButcherTableau(caso::RungeKutta4);
-    // std::vector<double> ansa = a.rungeKutta();
-    // for(auto i : ansa) {
-    //     std::cout << std::fixed << std::setprecision(10) << i << ' ';
-    // }
-    
-    // std::cout << std::endl;
+    caso::ODE a(f3, y, 0, xr, xs);
+    a.setButcherTableau(caso::RungeKutta4);
+    std::vector<double> ansa = a.rungeKutta();
+    for(auto i : ansa) {
+        std::cout << std::fixed << std::setprecision(10) << i << ' ';
+    }
+
+    std::cout << std::endl << "DormanPrince8" << std::endl;
 
     caso::ODE c(f3, y, 0, xr, xs);
     c.setButcherTableau(caso::DormanPrince8);
     std::vector<double> ansc = c.rungeKutta();
     for(auto i : ansc) {
+        std::cout << std::fixed << std::setprecision(10) << i << ' ';
+    }
+
+    std::cout << std::endl << "Heun2" << std::endl;
+
+    caso::ODE c1(f3, y, 0, xr, xs);
+    c1.setButcherTableau(caso::Heun2);
+    std::vector<double> ansc1 = c1.rungeKutta();
+    for(auto i : ansc1) {
+        std::cout << std::fixed << std::setprecision(10) << i << ' ';
+    }
+
+    std::cout << std::endl << "Fehlberg6" << std::endl;
+
+    caso::ODE c2(f3, y, 0, xr, xs);
+    c2.setButcherTableau(caso::Fehlberg6);
+    std::vector<double> ansc2 = c2.rungeKutta();
+    for(auto i : ansc2) {
+        std::cout << std::fixed << std::setprecision(10) << i << ' ';
+    }
+
+    std::cout << std::endl << "BogackiShampine4" << std::endl;
+
+    caso::ODE c3(f3, y, 0, xr, xs);
+    c3.setButcherTableau(caso::BogackiShampine4);
+    std::vector<double> ansc3 = c3.rungeKutta();
+    for(auto i : ansc3) {
         std::cout << std::fixed << std::setprecision(10) << i << ' ';
     }
 

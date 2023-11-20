@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <numeric>
 
 namespace caso {
 
@@ -98,25 +99,52 @@ namespace caso {
 
             validateParameters();
             currentY = yStart;
-
+            size_t n = 0;
             while(xLeft < xRight) {
-                std::cout << xLeft << " " << currentY[0] << std::endl;
+                //if(n%100 == 0)
+                    //std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << std::endl;
                 (this->*currentIterFunction)();
                 
                 xLeft += xStep;
+                n++;
             }
-
+            std::cout << "n : " << n << std::endl;
             return currentY;
         }
 
         void rungeKuttaIteration() {
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
             std::vector<double> temp(currentY.size());
-            std::vector<std::vector<double>> k(7, std::vector<double>(currentY.size())); //currentButcherTableau.size() - 1
-            computeK(k, temp);
+            computeK(k);
 
-            for(size_t i = 0; i < currentY.size(); i++) {
-                currentY[i] += computeWeightedSum(k, i);
+            for(size_t i = 0; i < currentButcherTableau.back().size(); i++) {
+
+                addVectorByScalar(temp, k[i], currentButcherTableau[currentButcherTableau.size() - 2][i]);
             }
+            addVectorByScalar(currentY, temp, xStep);
+
+            if(currentButcherTableau != butcherTablesMap[caso::RungeKutta4]) {
+                changeStep(k);
+            }
+        }
+
+        void changeStep(const std::vector<std::vector<double>>& k) {
+            const double tolerance = 1e-6;
+            double error = computeError(k);
+            if(error != 0.0) {
+                xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
+            } else {
+                xStep *= 2.0;
+            }
+        }
+
+        double computeError(const std::vector<std::vector<double>>& k) {
+            double error = 0.0;
+            size_t n = currentButcherTableau.back().size();
+            for(size_t i = 0; i < n; i++) {
+                error += (currentButcherTableau[n-2][i] - currentButcherTableau[n-1][i]) * std::accumulate(k[i].begin(), k[i].end(), 0) / k[i].size();
+            }
+            return xStep * error;
         }
 
         void forwardEulerIteration() {
@@ -132,7 +160,9 @@ namespace caso {
             temp1 = currentY; // y
             addVectorByScalar(temp1, temp, xStep); // y + h * f(x + h, y)
 
-            for(size_t i = 0; i < 100; i++) {
+            const double tolerance = 1e-8;
+
+            for(size_t i = 0; i < 100 && !checkConvergence(currentY, temp1, tolerance); i++) {
                 odeSystem(temp, temp1, xLeft + xStep);
                 temp1 = currentY;
                 addVectorByScalar(temp1, temp, xStep);
@@ -156,11 +186,13 @@ namespace caso {
         void implicitMidpointMethodIteration() {
             std::vector<double> k1(currentY.size()), temp(currentY.size()), temp1(currentY.size());
 
-            odeSystem(temp, currentY, xLeft + xStep / 2.); // f(x, y)
-            temp1 = currentY; // y
-            addVectorByScalar(temp1, temp, xStep / 2.); // y + h * f(x + h, y)
+            odeSystem(temp, currentY, xLeft + xStep / 2.);
+            temp1 = currentY;
+            addVectorByScalar(temp1, temp, xStep / 2.);
 
-            for(size_t i = 0; i < 100; i++) {
+            const double tolerance = 1e-8;
+
+            for(size_t i = 0; i < 100 && !checkConvergence(currentY, temp1, tolerance); i++) {
                 odeSystem(temp, temp1, xLeft + xStep / 2.);
                 temp1 = currentY;
                 addVectorByScalar(temp1, temp, xStep / 2.);
@@ -170,7 +202,17 @@ namespace caso {
             addVectorByScalar(currentY, k1, xStep);
         }
 
-        void computeK(std::vector<std::vector<double>>& kContainer, std::vector<double>& temp) {
+        bool checkConvergence(const std::vector<double>& previous, const std::vector<double>& current, double tolerance) const {
+            for(size_t i = 0; i < current.size(); ++i) {
+                if(std::abs(current[i] - previous[i]) > tolerance) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        void computeK(std::vector<std::vector<double>>& kContainer) {
+            std::vector<double> temp;
             for(size_t i = 0; i < kContainer.size(); i++) {
                 temp = currentY;
                 for(size_t j = 1; j < currentButcherTableau[i].size(); j++) {
@@ -178,14 +220,6 @@ namespace caso {
                 }
                 odeSystem(kContainer[i], temp, xLeft + currentButcherTableau[i][0] * xStep);
             }
-        }
-
-        double computeWeightedSum(const std::vector<std::vector<double>>& k, size_t index) const {
-            double sum = 0.0;
-            for(size_t j = 0; j < k.size(); j++) {
-                sum += currentButcherTableau.back()[j] * k[j][index];
-            }
-            return xStep * sum;
         }
 
         void addVectorByScalar(std::vector<double>& result, const std::vector<double>& vec, double scalar) {
@@ -256,14 +290,16 @@ namespace caso {
                     {1., 9017. / 3168., -355. / 33., 46732. / 5247., 49. / 176., -5103. / 18656., 0., 5. / 143.},
                     {1. / 2., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.},
                         {35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.},
-                        //{71. / 57600., 0., -71. / 16695., 71. / 1920., -17253. / 339200., 22. / 525., -1. / 40}
+                        {71. / 57600., 0., -71. / 16695., 71. / 1920., -17253. / 339200., 22. / 525., -1. / 40}
                 }
             },
             {
                 Heun2, {
                     {0.},
-                    {2. / 3., 2. / 3.},
-                        {1. / 4., 1. / 4.}
+                    {1., 1.},
+                        {1. / 2., 1. / 2.},
+                        {1., 0.},
+                        
                 }
             },
             {
@@ -273,9 +309,9 @@ namespace caso {
                     {3. / 8., 3. / 32., 9. / 32.},
                     {12. / 13., 1932. / 2197., -7200. / 2197., 7296. / 2197.},
                     {1., 439. / 216., -8., 3680. / 513., -845. / 4104.},
-                    {1. / 2.0, -8. / 27., 2., -3544. / 2565., 1859. / 4104., -11. / 40.},
+                    {1. / 2., -8. / 27., 2., -3544. / 2565., 1859. / 4104., -11. / 40.},
                         {25. / 216., 0., 1408. / 2565., 2197. / 4104., -1. / 5., 0.},
-                        //{-1. / 360., 0., 128. / 4275., 2197. / 75240., -1. / 50., -2.0 / 55.0}
+                        {-1. / 360., 0., 128. / 4275., 2197. / 75240., -1. / 50., -2. / 55.}
                 }
             },
             {
@@ -284,7 +320,7 @@ namespace caso {
                     {1. / 2., 1. / 2.},
                     {3. / 4., 0., 3. / 4.},
                     {1., 2. / 9., 1. / 3., 4. / 9.},
-                        {2. / 9.0, 1. / 3., 4. / 9., 0.},
+                        {2. / 9., 1. / 3., 4. / 9., 0.},
                         {-7. / 72., 1. / 12., 1. / 9., -1. / 8.}
                 }
             }
