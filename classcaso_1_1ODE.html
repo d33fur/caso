@@ -77,6 +77,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Class for solving ordinary differential equations.  
+ <a href="classcaso_1_1ODE.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="caso_8h_source.html">caso.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -92,80 +95,112 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a46c2d775b9156ac43747ccd937548459"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a46c2d775b9156ac43747ccd937548459">~ODE</a> ()=default</td></tr>
 <tr class="separator:a46c2d775b9156ac43747ccd937548459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93f7211e8024f84f49ee204e5c3b813d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a93f7211e8024f84f49ee204e5c3b813d">setEquationWithSystem</a> (const <a class="el" href="classcaso_1_1ODE.html#ac3b0dcb0f9c9a2ac5e925ee35bb029f8">odeS</a> &amp;inputOdeSystem)</td></tr>
+<tr class="memdesc:a93f7211e8024f84f49ee204e5c3b813d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system.  <a href="classcaso_1_1ODE.html#a93f7211e8024f84f49ee204e5c3b813d">More...</a><br /></td></tr>
 <tr class="separator:a93f7211e8024f84f49ee204e5c3b813d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf0585adf81c09507335f35833940279"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#aaf0585adf81c09507335f35833940279">setStartValuesAndBorders</a> (std::vector&lt; double &gt; yStartValues, double inputXLeft, double inputXRight, double step)</td></tr>
+<tr class="memdesc:aaf0585adf81c09507335f35833940279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start values for <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a>.  <a href="classcaso_1_1ODE.html#aaf0585adf81c09507335f35833940279">More...</a><br /></td></tr>
 <tr class="separator:aaf0585adf81c09507335f35833940279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0f4f0d13d0e20bf083723eb0bce1402"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#ad0f4f0d13d0e20bf083723eb0bce1402">setButcherTableau</a> (<a class="el" href="namespacecaso.html#a1e078685891e658753ff9e39f886ef67">ButcherTableau</a> tableName)</td></tr>
+<tr class="memdesc:ad0f4f0d13d0e20bf083723eb0bce1402"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets Butcher tableau for Runge-Kutta method.  <a href="classcaso_1_1ODE.html#ad0f4f0d13d0e20bf083723eb0bce1402">More...</a><br /></td></tr>
 <tr class="separator:ad0f4f0d13d0e20bf083723eb0bce1402"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a131854f81211b84590253760d6b18382"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a131854f81211b84590253760d6b18382">rungeKutta</a> (double step=-1.0)</td></tr>
+<tr class="memdesc:a131854f81211b84590253760d6b18382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with Runge-Kutta method.  <a href="classcaso_1_1ODE.html#a131854f81211b84590253760d6b18382">More...</a><br /></td></tr>
 <tr class="separator:a131854f81211b84590253760d6b18382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d56a1861f183d0744afa01f428d740e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a1d56a1861f183d0744afa01f428d740e">forwardEuler</a> (double step=-1.0)</td></tr>
+<tr class="memdesc:a1d56a1861f183d0744afa01f428d740e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with forward Euler method.  <a href="classcaso_1_1ODE.html#a1d56a1861f183d0744afa01f428d740e">More...</a><br /></td></tr>
 <tr class="separator:a1d56a1861f183d0744afa01f428d740e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3367e9b890ce67c6791cfd24333d7cff"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a3367e9b890ce67c6791cfd24333d7cff">backwardEuler</a> (double step=-1.0)</td></tr>
+<tr class="memdesc:a3367e9b890ce67c6791cfd24333d7cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with Backward Euler method.  <a href="classcaso_1_1ODE.html#a3367e9b890ce67c6791cfd24333d7cff">More...</a><br /></td></tr>
 <tr class="separator:a3367e9b890ce67c6791cfd24333d7cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87a80c80ff3cac240eee800d00498433"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a87a80c80ff3cac240eee800d00498433">midpoint</a> (double step=-1.0)</td></tr>
+<tr class="memdesc:a87a80c80ff3cac240eee800d00498433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with midpoint method.  <a href="classcaso_1_1ODE.html#a87a80c80ff3cac240eee800d00498433">More...</a><br /></td></tr>
 <tr class="separator:a87a80c80ff3cac240eee800d00498433"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53a535d20023da5797371ffe096c2ba1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a53a535d20023da5797371ffe096c2ba1">implicitMidpoint</a> (double step=-1.0)</td></tr>
+<tr class="memdesc:a53a535d20023da5797371ffe096c2ba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with implicit midpoint method.  <a href="classcaso_1_1ODE.html#a53a535d20023da5797371ffe096c2ba1">More...</a><br /></td></tr>
 <tr class="separator:a53a535d20023da5797371ffe096c2ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
 <tr class="memitem:ac3b0dcb0f9c9a2ac5e925ee35bb029f8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#ac3b0dcb0f9c9a2ac5e925ee35bb029f8">odeS</a> = std::function&lt; void(std::vector&lt; double &gt; &amp;dydx, std::vector&lt; double &gt; &amp;y, double x)&gt;</td></tr>
+<tr class="memdesc:ac3b0dcb0f9c9a2ac5e925ee35bb029f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system of equations.  <a href="classcaso_1_1ODE.html#ac3b0dcb0f9c9a2ac5e925ee35bb029f8">More...</a><br /></td></tr>
 <tr class="separator:ac3b0dcb0f9c9a2ac5e925ee35bb029f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37998b303ffa7514e67f16f591e2f612"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a37998b303ffa7514e67f16f591e2f612">IterFunction</a> = void(caso::ODE::*)()</td></tr>
+<tr class="memdesc:a37998b303ffa7514e67f16f591e2f612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer for numerical methods.  <a href="classcaso_1_1ODE.html#a37998b303ffa7514e67f16f591e2f612">More...</a><br /></td></tr>
 <tr class="separator:a37998b303ffa7514e67f16f591e2f612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a161a6545517c9c72b2b8926072f60ff2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a161a6545517c9c72b2b8926072f60ff2">solveMethod</a> (double step)</td></tr>
+<tr class="memdesc:a161a6545517c9c72b2b8926072f60ff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Causes fields to be checked. Starts a loop over the interval X and on every iteration Calls a method depending on currentIterFunction. Returns solution vector.  <a href="classcaso_1_1ODE.html#a161a6545517c9c72b2b8926072f60ff2">More...</a><br /></td></tr>
 <tr class="separator:a161a6545517c9c72b2b8926072f60ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b8fd9b419a5a251f1d271241ce0b791"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a1b8fd9b419a5a251f1d271241ce0b791">rungeKuttaIteration</a> ()</td></tr>
+<tr class="memdesc:a1b8fd9b419a5a251f1d271241ce0b791"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.  <a href="classcaso_1_1ODE.html#a1b8fd9b419a5a251f1d271241ce0b791">More...</a><br /></td></tr>
 <tr class="separator:a1b8fd9b419a5a251f1d271241ce0b791"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada7985bf64c7e7e81bdb60aed5856b89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#ada7985bf64c7e7e81bdb60aed5856b89">changeStep</a> (const std::vector&lt; std::vector&lt; double &gt;&gt; &amp;k)</td></tr>
-<tr class="separator:ada7985bf64c7e7e81bdb60aed5856b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8081afd37e49f2ea8ca8af6ef900697f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a8081afd37e49f2ea8ca8af6ef900697f">computeError</a> (const std::vector&lt; std::vector&lt; double &gt;&gt; &amp;k)</td></tr>
-<tr class="separator:a8081afd37e49f2ea8ca8af6ef900697f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520163c5bcd75cd3934f4ca4e9582b86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a520163c5bcd75cd3934f4ca4e9582b86">forwardEulerIteration</a> ()</td></tr>
+<tr class="memdesc:a520163c5bcd75cd3934f4ca4e9582b86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the forward Euler algorithm iteration.  <a href="classcaso_1_1ODE.html#a520163c5bcd75cd3934f4ca4e9582b86">More...</a><br /></td></tr>
 <tr class="separator:a520163c5bcd75cd3934f4ca4e9582b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fa85e445e7e4fb08068570c951e1b7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a7fa85e445e7e4fb08068570c951e1b7a">backwardEulerIteration</a> ()</td></tr>
+<tr class="memdesc:a7fa85e445e7e4fb08068570c951e1b7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the backward Euler algorithm iteration.  <a href="classcaso_1_1ODE.html#a7fa85e445e7e4fb08068570c951e1b7a">More...</a><br /></td></tr>
 <tr class="separator:a7fa85e445e7e4fb08068570c951e1b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b25335611a1566990caee9dc670e7a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a0b25335611a1566990caee9dc670e7a0">midpointMethodIteration</a> ()</td></tr>
+<tr class="memdesc:a0b25335611a1566990caee9dc670e7a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the midpoint algorithm iteration.  <a href="classcaso_1_1ODE.html#a0b25335611a1566990caee9dc670e7a0">More...</a><br /></td></tr>
 <tr class="separator:a0b25335611a1566990caee9dc670e7a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19d2278af0f1eef7796a51392b2caa2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a19d2278af0f1eef7796a51392b2caa2e">implicitMidpointMethodIteration</a> ()</td></tr>
+<tr class="memdesc:a19d2278af0f1eef7796a51392b2caa2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the implicit midpoint algorithm iteration.  <a href="classcaso_1_1ODE.html#a19d2278af0f1eef7796a51392b2caa2e">More...</a><br /></td></tr>
 <tr class="separator:a19d2278af0f1eef7796a51392b2caa2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada7985bf64c7e7e81bdb60aed5856b89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#ada7985bf64c7e7e81bdb60aed5856b89">changeStep</a> (const std::vector&lt; std::vector&lt; double &gt;&gt; &amp;k)</td></tr>
+<tr class="memdesc:ada7985bf64c7e7e81bdb60aed5856b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates a new step value based on the magnitude of the error value.  <a href="classcaso_1_1ODE.html#ada7985bf64c7e7e81bdb60aed5856b89">More...</a><br /></td></tr>
+<tr class="separator:ada7985bf64c7e7e81bdb60aed5856b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8081afd37e49f2ea8ca8af6ef900697f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a8081afd37e49f2ea8ca8af6ef900697f">computeError</a> (const std::vector&lt; std::vector&lt; double &gt;&gt; &amp;k)</td></tr>
+<tr class="memdesc:a8081afd37e49f2ea8ca8af6ef900697f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the error value using the last 2 lines of the Butcher tableau.  <a href="classcaso_1_1ODE.html#a8081afd37e49f2ea8ca8af6ef900697f">More...</a><br /></td></tr>
+<tr class="separator:a8081afd37e49f2ea8ca8af6ef900697f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e854517716ff65e35cfbf7f3e1ea038"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a7e854517716ff65e35cfbf7f3e1ea038">checkConvergence</a> (const std::vector&lt; double &gt; &amp;previous, const std::vector&lt; double &gt; &amp;current, double tolerance) const</td></tr>
+<tr class="memdesc:a7e854517716ff65e35cfbf7f3e1ea038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks convergence using previous and current Y values.  <a href="classcaso_1_1ODE.html#a7e854517716ff65e35cfbf7f3e1ea038">More...</a><br /></td></tr>
 <tr class="separator:a7e854517716ff65e35cfbf7f3e1ea038"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dc3976da65523f2b7fde92b1bea190d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a3dc3976da65523f2b7fde92b1bea190d">computeK</a> (std::vector&lt; std::vector&lt; double &gt;&gt; &amp;kContainer)</td></tr>
-<tr class="separator:a3dc3976da65523f2b7fde92b1bea190d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a639fdf514fc44e216e4db107991009dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a639fdf514fc44e216e4db107991009dc">computeK</a> (std::vector&lt; std::vector&lt; double &gt;&gt; &amp;k)</td></tr>
+<tr class="memdesc:a639fdf514fc44e216e4db107991009dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes coefficients of Runge-Kutta method using currentButcherTableau.  <a href="classcaso_1_1ODE.html#a639fdf514fc44e216e4db107991009dc">More...</a><br /></td></tr>
+<tr class="separator:a639fdf514fc44e216e4db107991009dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d0bbe7e56bc1168d8e3a79106aea445"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a7d0bbe7e56bc1168d8e3a79106aea445">addVectorByScalar</a> (std::vector&lt; double &gt; &amp;result, const std::vector&lt; double &gt; &amp;vec, double scalar)</td></tr>
+<tr class="memdesc:a7d0bbe7e56bc1168d8e3a79106aea445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks convergence using previous and current Y values.  <a href="classcaso_1_1ODE.html#a7d0bbe7e56bc1168d8e3a79106aea445">More...</a><br /></td></tr>
 <tr class="separator:a7d0bbe7e56bc1168d8e3a79106aea445"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5f196205dbc4694f93f4c2d3727ff7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#ae5f196205dbc4694f93f4c2d3727ff7c">validateParameters</a> () const</td></tr>
+<tr class="memdesc:ae5f196205dbc4694f93f4c2d3727ff7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Causes fields to be checked.  <a href="classcaso_1_1ODE.html#ae5f196205dbc4694f93f4c2d3727ff7c">More...</a><br /></td></tr>
 <tr class="separator:ae5f196205dbc4694f93f4c2d3727ff7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:adb8557226b0cec6b3429e39fb913eac3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcaso_1_1ODE.html#ac3b0dcb0f9c9a2ac5e925ee35bb029f8">odeS</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#adb8557226b0cec6b3429e39fb913eac3">odeSystem</a></td></tr>
+<tr class="memdesc:adb8557226b0cec6b3429e39fb913eac3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system function.  <a href="classcaso_1_1ODE.html#adb8557226b0cec6b3429e39fb913eac3">More...</a><br /></td></tr>
 <tr class="separator:adb8557226b0cec6b3429e39fb913eac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70c80bb634810c4adff3d24da80a70d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcaso_1_1ODE.html#a37998b303ffa7514e67f16f591e2f612">IterFunction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a70c80bb634810c4adff3d24da80a70d7">currentIterFunction</a> = nullptr</td></tr>
+<tr class="memdesc:a70c80bb634810c4adff3d24da80a70d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to a current numerical method iteration.  <a href="classcaso_1_1ODE.html#a70c80bb634810c4adff3d24da80a70d7">More...</a><br /></td></tr>
 <tr class="separator:a70c80bb634810c4adff3d24da80a70d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a845f7f8458397cb3bdc28d0284fb0923"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a845f7f8458397cb3bdc28d0284fb0923">currentButcherTableau</a></td></tr>
+<tr class="memdesc:a845f7f8458397cb3bdc28d0284fb0923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current Butcher tableau.  <a href="classcaso_1_1ODE.html#a845f7f8458397cb3bdc28d0284fb0923">More...</a><br /></td></tr>
 <tr class="separator:a845f7f8458397cb3bdc28d0284fb0923"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16c616c5eba313bf418ba156d613d52e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a16c616c5eba313bf418ba156d613d52e">yStart</a></td></tr>
+<tr class="memdesc:a16c616c5eba313bf418ba156d613d52e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start Y values.  <a href="classcaso_1_1ODE.html#a16c616c5eba313bf418ba156d613d52e">More...</a><br /></td></tr>
 <tr class="separator:a16c616c5eba313bf418ba156d613d52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86975924d66a93f2b15efa317f9ae05e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a86975924d66a93f2b15efa317f9ae05e">currentY</a></td></tr>
+<tr class="memdesc:a86975924d66a93f2b15efa317f9ae05e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Final Y values.  <a href="classcaso_1_1ODE.html#a86975924d66a93f2b15efa317f9ae05e">More...</a><br /></td></tr>
 <tr class="separator:a86975924d66a93f2b15efa317f9ae05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7dd1a90cbffdaa796ef8dfe6fb40510"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#ad7dd1a90cbffdaa796ef8dfe6fb40510">xLeft</a> = NAN</td></tr>
+<tr class="memdesc:ad7dd1a90cbffdaa796ef8dfe6fb40510"><td class="mdescLeft">&#160;</td><td class="mdescRight">Left border of X interval and current X.  <a href="classcaso_1_1ODE.html#ad7dd1a90cbffdaa796ef8dfe6fb40510">More...</a><br /></td></tr>
 <tr class="separator:ad7dd1a90cbffdaa796ef8dfe6fb40510"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d8e5648a3cccc809d04d8234ebe98dc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a5d8e5648a3cccc809d04d8234ebe98dc">xRight</a> = NAN</td></tr>
+<tr class="memdesc:a5d8e5648a3cccc809d04d8234ebe98dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right border of X interval.  <a href="classcaso_1_1ODE.html#a5d8e5648a3cccc809d04d8234ebe98dc">More...</a><br /></td></tr>
 <tr class="separator:a5d8e5648a3cccc809d04d8234ebe98dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972cd09776bd8b9ebf0dbeacab7ad33b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a972cd09776bd8b9ebf0dbeacab7ad33b">xStep</a> = NAN</td></tr>
+<tr class="memdesc:a972cd09776bd8b9ebf0dbeacab7ad33b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current step or h for X.  <a href="classcaso_1_1ODE.html#a972cd09776bd8b9ebf0dbeacab7ad33b">More...</a><br /></td></tr>
 <tr class="separator:a972cd09776bd8b9ebf0dbeacab7ad33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15d03139341b25d9fd21a74a7b421a1f"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="namespacecaso.html#a1e078685891e658753ff9e39f886ef67">ButcherTableau</a>, const std::vector&lt; std::vector&lt; double &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcaso_1_1ODE.html#a15d03139341b25d9fd21a74a7b421a1f">butcherTablesMap</a></td></tr>
+<tr class="memdesc:a15d03139341b25d9fd21a74a7b421a1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map with Butcher tableaus.  <a href="classcaso_1_1ODE.html#a15d03139341b25d9fd21a74a7b421a1f">More...</a><br /></td></tr>
 <tr class="separator:a15d03139341b25d9fd21a74a7b421a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00021">21</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<div class="textblock"><p>Class for solving ordinary differential equations. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00026">26</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a37998b303ffa7514e67f16f591e2f612"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a37998b303ffa7514e67f16f591e2f612">&#9670;&nbsp;</a></span>IterFunction</h2>
@@ -187,7 +222,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00023">23</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Function pointer for numerical methods. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00037">37</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -211,7 +248,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00022">22</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Type of <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system of equations. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dydx</td><td>Derivative variables </td></tr>
+    <tr><td class="paramname">y</td><td>Derivatives </td></tr>
+    <tr><td class="paramname">x</td><td>x-value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00033">33</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -265,7 +312,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00027">27</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00041">41</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -315,7 +362,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00029">29</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00043">43</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -371,7 +418,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00031">31</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00045">45</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -441,7 +488,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00217">217</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Checks convergence using previous and current Y values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>Vector to which vec will be added element-wise after multiplication </td></tr>
+    <tr><td class="paramname">vec</td><td>A vector that will be multiplied by a scalar </td></tr>
+    <tr><td class="paramname">scalar</td><td>Multiplication factor </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00292">292</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -469,7 +526,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00067">67</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with Backward Euler method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00102">102</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +561,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00148">148</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Implementation of the backward Euler algorithm iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00181">181</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -524,7 +591,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00123">123</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Calculates a new step value based on the magnitude of the error value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k</td><td>Matrix of coefficients </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00237">237</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -568,7 +643,17 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00197">197</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Checks convergence using previous and current Y values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">previous</td><td>Previous Y values </td></tr>
+    <tr><td class="paramname">current</td><td>Current Y values </td></tr>
+    <tr><td class="paramname">tolerance</td><td>Calculation accuracy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00264">264</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -596,12 +681,20 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00133">133</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Calculates the error value using the last 2 lines of the Butcher tableau. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k</td><td>Matrix of coefficients </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00250">250</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
-<a id="a3dc3976da65523f2b7fde92b1bea190d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dc3976da65523f2b7fde92b1bea190d">&#9670;&nbsp;</a></span>computeK()</h2>
+<a id="a639fdf514fc44e216e4db107991009dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a639fdf514fc44e216e4db107991009dc">&#9670;&nbsp;</a></span>computeK()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -613,7 +706,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">void caso::ODE::computeK </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>kContainer</em></td><td>)</td>
+          <td class="paramname"><em>k</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -624,7 +717,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00206">206</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Computes coefficients of Runge-Kutta method using currentButcherTableau. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k</td><td>Matrix of coefficients </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00276">276</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -652,7 +753,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00061">61</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with forward Euler method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00093">93</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -679,7 +788,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00142">142</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Implementation of the forward Euler algorithm iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00173">173</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -707,7 +818,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00079">79</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with implicit midpoint method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00120">120</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -734,7 +853,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00178">178</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Implementation of the implicit midpoint algorithm iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00215">215</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -762,7 +883,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00073">73</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with midpoint method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00111">111</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -789,7 +918,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00167">167</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Implementation of the midpoint algorithm iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00202">202</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -817,7 +948,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00056">56</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Solves <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> with Runge-Kutta method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00085">85</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -844,7 +983,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00107">107</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00155">155</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -872,7 +1013,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00048">48</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Sets Butcher tableau for Runge-Kutta method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tableName</td><td>Butcher tableau name from ButcherTableau type </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00074">74</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -900,7 +1049,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00037">37</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Sets <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputOdeSystem</td><td><a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00054">54</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -950,7 +1107,18 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00041">41</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Sets start values for <a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">yStartValues</td><td>Start values of the derivatives </td></tr>
+    <tr><td class="paramname">inputXLeft</td><td>Left border of X interval </td></tr>
+    <tr><td class="paramname">inputXRight</td><td>Right border of X interval </td></tr>
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00064">64</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -978,7 +1146,15 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00088">88</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Causes fields to be checked. Starts a loop over the interval X and on every iteration Calls a method depending on currentIterFunction. Returns solution vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">step</td><td>Step or h for X </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00134">134</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1005,7 +1181,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00222">222</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Causes fields to be checked. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00299">299</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1030,7 +1208,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00265">265</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Map with Butcher tableaus. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00350">350</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1054,7 +1234,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00259">259</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Current Butcher tableau. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00338">338</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1078,7 +1260,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00258">258</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Pointer to a current numerical method iteration. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00336">336</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1102,7 +1286,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00260">260</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Final Y values. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00342">342</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1126,7 +1312,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00257">257</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p><a class="el" href="classcaso_1_1ODE.html" title="Class for solving ordinary differential equations.">ODE</a> system function. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00334">334</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1150,7 +1338,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00261">261</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Left border of X interval and current X. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00344">344</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1174,7 +1364,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00262">262</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Right border of X interval. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00346">346</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1198,7 +1390,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00263">263</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Current step or h for X. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00348">348</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
@@ -1222,7 +1416,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00260">260</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
+<p>Start Y values. </p>
+
+<p class="definition">Definition at line <a class="el" href="caso_8h_source.html#l00340">340</a> of file <a class="el" href="caso_8h_source.html">caso.h</a>.</p>
 
 </div>
 </div>
