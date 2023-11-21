@@ -3,7 +3,7 @@ This is header-only C++ library for solving Cauchy problem using numerical metho
 
 There are 5 methods: ```Runge-Kutta```, ```Forward Euler```, ```Backward Euler```, ```midpoint```, ```implicit midpoint``` and 5 Butcher tableaus for Runge-Kutta method.
 # 2. Usage
-Let's take $$y''' + 3y'' + 3y' + y = 0, \quad y(0) = -1, \quad y'(0) = 2, \quad y''(0) = 3, \quad x \in [0, 1], \quad h = 0.01$$ Cauchy problem and solve it.
+Let's take $$y''' + 3y'' + 3y' + y - x = 0, \quad y(0) = -1, \quad y'(0) = 2, \quad y''(0) = 3, \quad x \in [0, 1], \quad h = 0.01$$ Cauchy problem and solve it.
 
 Add ```#include "caso.h"``` into your project.
 
@@ -14,7 +14,7 @@ You can do this with function for system of equations:
 void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
     dydx[0] = y[1];
     dydx[1] = y[2];
-    dydx[2] = -3 * y[2] - 3 * y[1] - y[0];
+    dydx[2] = -3 * y[2] - 3 * y[1] - y[0] + x;
 }
 ```
 And here are a few ways to set initial conditions of Cauchy problem:
