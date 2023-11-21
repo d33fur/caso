@@ -81,13 +81,6 @@ namespace caso {
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
-        // эйлер форвард алгоритм правильный
-        // эйлер бэквардс алгоритм правильный
-        // midpoint method алгоритм правильный
-        // проверить hein's method 
-        // проверить bogacki-shampine method
-        // переделать дорман принс метод то есть переделать рунге кутту
-        // implicit midpoint method алгоритм правильный
 
 
 
@@ -104,11 +97,10 @@ namespace caso {
                 //if(n%100 == 0)
                     //std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << std::endl;
                 (this->*currentIterFunction)();
-                
                 xLeft += xStep;
                 n++;
             }
-            std::cout << "n : " << n << std::endl;
+            //std::cout << "n : " << n << std::endl;
             return currentY;
         }
 
@@ -129,7 +121,7 @@ namespace caso {
         }
 
         void changeStep(const std::vector<std::vector<double>>& k) {
-            const double tolerance = 1e-6;
+            const double tolerance = 1e-4;
             double error = computeError(k);
             if(error != 0.0) {
                 xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
@@ -156,9 +148,9 @@ namespace caso {
         void backwardEulerIteration() {
             std::vector<double> k1(currentY.size()), temp(currentY.size()), temp1(currentY.size());
 
-            odeSystem(temp, currentY, xLeft); // f(x, y)
-            temp1 = currentY; // y
-            addVectorByScalar(temp1, temp, xStep); // y + h * f(x + h, y)
+            odeSystem(temp, currentY, xLeft);
+            temp1 = currentY;
+            addVectorByScalar(temp1, temp, xStep);
 
             const double tolerance = 1e-8;
 
