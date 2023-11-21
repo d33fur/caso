@@ -10,6 +10,9 @@
 
 namespace caso {
 
+    /**
+     * @brief Enum type Butcher Tableaus for Runge-Kutta method.
+     */
     enum ButcherTableau {
         RungeKutta4,
         DormanPrince8,
@@ -17,9 +20,20 @@ namespace caso {
         Fehlberg6,
         BogackiShampine4
     };
-
+    /**
+     * @brief Class for solving ordinary differential equations.
+     */
     class ODE {
+        /**
+         * @brief Type of ODE system of equations.
+         * @param dydx Derivative variables
+         * @param y Derivatives
+         * @param x x-value
+         */
         using odeS = std::function<void(std::vector<double>& dydx, std::vector<double>& y, double x)>;
+        /**
+         * @brief Function pointer for numerical methods.
+         */
         using IterFunction = void (caso::ODE::*)();
 
     public:
@@ -33,18 +47,30 @@ namespace caso {
 
         ~ODE() = default;
 
-
+        /**
+         * @brief Sets ODE system.
+         * @param inputOdeSystem ODE system function
+         */
         void setEquationWithSystem(const odeS& inputOdeSystem) {
             odeSystem = inputOdeSystem;
         }
-
+        /**
+         * @brief Sets start values for ODE.
+         * @param yStartValues Start values of the derivatives
+         * @param inputXLeft Left border of X interval
+         * @param inputXRight Right border of X interval
+         * @param step Step or h for X
+         */
         void setStartValuesAndBorders(std::vector<double> yStartValues, double inputXLeft, double inputXRight, double step) {
             yStart = yStartValues;
             xLeft = inputXLeft;
             xRight = inputXRight;
             xStep = step;
         }
-
+        /**
+         * @brief Sets Butcher tableau for Runge-Kutta method.
+         * @param tableName Butcher tableau name from ButcherTableau type
+         */
         void setButcherTableau(ButcherTableau tableName) {
             if(butcherTablesMap.find(tableName) != butcherTablesMap.end()) {
                 currentButcherTableau = butcherTablesMap[tableName];
@@ -52,30 +78,45 @@ namespace caso {
                 throw std::invalid_argument("Invalid Butcher table name.");
             }
         }
-
+        /**
+         * @brief Solves ODE with Runge-Kutta method.
+         * @param step Step or h for X
+         */
         std::vector<double> rungeKutta(double step = -1.0) {
             currentIterFunction = &caso::ODE::rungeKuttaIteration;
             return solveMethod(step);
         }
-
+        /**
+         * @brief Solves ODE with forward Euler method.
+         * @param step Step or h for X
+         */
         std::vector<double> forwardEuler(double step = -1.0) {
             currentIterFunction = &caso::ODE::forwardEulerIteration;
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
-
+        /**
+         * @brief Solves ODE with Backward Euler method.
+         * @param step Step or h for X
+         */
         std::vector<double> backwardEuler(double step = -1.0) {
             currentIterFunction = &caso::ODE::backwardEulerIteration;
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
-
+        /**
+         * @brief Solves ODE with midpoint method.
+         * @param step Step or h for X
+         */
         std::vector<double> midpoint(double step = -1.0) {
             currentIterFunction = &caso::ODE::midpointMethodIteration;
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
-
+        /**
+         * @brief Solves ODE with implicit midpoint method.
+         * @param step Step or h for X
+         */
         std::vector<double> implicitMidpoint(double step = -1.0) {
             currentIterFunction = &caso::ODE::implicitMidpointMethodIteration;
             setButcherTableau(caso::RungeKutta4);
@@ -85,6 +126,11 @@ namespace caso {
 
 
     private:
+        /**
+         * @brief Causes fields to be checked. Starts a loop over the interval X and on every iteration Calls 
+         * a method depending on currentIterFunction. Returns solution vector.
+         * @param step Step or h for X
+         */
         std::vector<double> solveMethod(double step) {
             if(step > 0) {
                 xStep = step;
@@ -103,7 +149,9 @@ namespace caso {
             //std::cout << "n : " << n << std::endl;
             return currentY;
         }
-
+        /**
+         * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
+         */
         void rungeKuttaIteration() {
             std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
             std::vector<double> temp(currentY.size());
@@ -119,32 +167,17 @@ namespace caso {
                 changeStep(k);
             }
         }
-
-        void changeStep(const std::vector<std::vector<double>>& k) {
-            const double tolerance = 1e-4;
-            double error = computeError(k);
-            if(error != 0.0) {
-                xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
-            } else {
-                xStep *= 2.0;
-            }
-        }
-
-        double computeError(const std::vector<std::vector<double>>& k) {
-            double error = 0.0;
-            size_t n = currentButcherTableau.back().size();
-            for(size_t i = 0; i < n; i++) {
-                error += (currentButcherTableau[n-2][i] - currentButcherTableau[n-1][i]) * std::accumulate(k[i].begin(), k[i].end(), 0) / k[i].size();
-            }
-            return xStep * error;
-        }
-
+        /**
+         * @brief Implementation of the forward Euler algorithm iteration.
+         */
         void forwardEulerIteration() {
             std::vector<double> newY(currentY.size()), k1(currentY.size()), k2(currentY.size());
             odeSystem(k1, currentY, xLeft);
             addVectorByScalar(currentY, k1, xStep);
         }
-
+        /**
+         * @brief Implementation of the backward Euler algorithm iteration.
+         */
         void backwardEulerIteration() {
             std::vector<double> k1(currentY.size()), temp(currentY.size()), temp1(currentY.size());
 
@@ -163,7 +196,9 @@ namespace caso {
             odeSystem(k1, temp1, xLeft + xStep);
             addVectorByScalar(currentY, k1, xStep);
         }
-
+        /**
+         * @brief Implementation of the midpoint algorithm iteration.
+         */
         void midpointMethodIteration() {
             std::vector<double> k1(currentY.size()), k2(currentY.size()), temp(currentY.size());
 
@@ -174,7 +209,9 @@ namespace caso {
             odeSystem(k2, temp, xLeft + xStep / 2.);
             addVectorByScalar(currentY, k2, xStep);
         }
-
+        /**
+         * @brief Implementation of the implicit midpoint algorithm iteration.
+         */
         void implicitMidpointMethodIteration() {
             std::vector<double> k1(currentY.size()), temp(currentY.size()), temp1(currentY.size());
 
@@ -193,7 +230,37 @@ namespace caso {
             odeSystem(k1, temp1, xLeft + xStep / 2.);
             addVectorByScalar(currentY, k1, xStep);
         }
-
+        /**
+         * @brief Calculates a new step value based on the magnitude of the error value.
+         * @param k Matrix of coefficients
+         */
+        void changeStep(const std::vector<std::vector<double>>& k) {
+            const double tolerance = 1e-4;
+            double error = computeError(k);
+            if(error != 0.0) {
+                xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
+            } else {
+                xStep *= 2.0;
+            }
+        }
+        /**
+         * @brief Calculates the error value using the last 2 lines of the Butcher tableau.
+         * @param k Matrix of coefficients
+         */
+        double computeError(const std::vector<std::vector<double>>& k) {
+            double error = 0.0;
+            size_t n = currentButcherTableau.back().size();
+            for(size_t i = 0; i < n; i++) {
+                error += (currentButcherTableau[n-2][i] - currentButcherTableau[n-1][i]) * std::accumulate(k[i].begin(), k[i].end(), 0) / k[i].size();
+            }
+            return xStep * error;
+        }
+        /**
+         * @brief Checks convergence using previous and current Y values.
+         * @param previous Previous Y values
+         * @param current Current Y values
+         * @param tolerance Calculation accuracy
+         */
         bool checkConvergence(const std::vector<double>& previous, const std::vector<double>& current, double tolerance) const {
             for(size_t i = 0; i < current.size(); ++i) {
                 if(std::abs(current[i] - previous[i]) > tolerance) {
@@ -202,23 +269,33 @@ namespace caso {
             }
             return true;
         }
-
-        void computeK(std::vector<std::vector<double>>& kContainer) {
+        /**
+         * @brief Computes coefficients of Runge-Kutta method using currentButcherTableau.
+         * @param k Matrix of coefficients
+         */
+        void computeK(std::vector<std::vector<double>>& k) {
             std::vector<double> temp;
-            for(size_t i = 0; i < kContainer.size(); i++) {
+            for(size_t i = 0; i < k.size(); i++) {
                 temp = currentY;
                 for(size_t j = 1; j < currentButcherTableau[i].size(); j++) {
-                    addVectorByScalar(temp, kContainer[j - 1], currentButcherTableau[i][j] * xStep);
+                    addVectorByScalar(temp, k[j - 1], currentButcherTableau[i][j] * xStep);
                 }
-                odeSystem(kContainer[i], temp, xLeft + currentButcherTableau[i][0] * xStep);
+                odeSystem(k[i], temp, xLeft + currentButcherTableau[i][0] * xStep);
             }
         }
-
+        /**
+         * @brief Checks convergence using previous and current Y values.
+         * @param result Vector to which vec will be added element-wise after multiplication
+         * @param vec A vector that will be multiplied by a scalar
+         * @param scalar Multiplication factor
+         */
         void addVectorByScalar(std::vector<double>& result, const std::vector<double>& vec, double scalar) {
             std::transform(result.begin(), result.end(), vec.begin(), result.begin(),
                            [scalar](double i1, double i2) { return i1 + i2 * scalar; });
         }
-
+        /**
+         * @brief Causes fields to be checked.
+         */
         void validateParameters() const {
             if(!odeSystem) {
                 throw std::invalid_argument("Function for system of equations is not set.");
@@ -253,15 +330,23 @@ namespace caso {
             }
         }
 
-
+        //! ODE system function.
         odeS odeSystem;
+        //! Pointer to a current numerical method iteration.
         IterFunction currentIterFunction = nullptr;
+        //! Current Butcher tableau.
         std::vector<std::vector<double>> currentButcherTableau;
-        std::vector<double> yStart, currentY;
+        //! Start Y values.
+        std::vector<double> yStart;
+        //! Final Y values.
+        std::vector<double> currentY;
+        //! Left border of X interval and current X.
         double xLeft = NAN;
+        //! Right border of X interval.
         double xRight = NAN;
+        //! Current step or h for X.
         double xStep = NAN;
-
+        //! Map with Butcher tableaus.
         std::unordered_map<ButcherTableau, const std::vector<std::vector<double>>> butcherTablesMap = {
             {
                 RungeKutta4, {
