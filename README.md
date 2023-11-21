@@ -37,8 +37,10 @@ myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ## 2.2 Set the Butcher tableau for your method (if it is Runge-Kutta)
 There are 3 Butcher tableaus for Runge-Kutta method:
 ```RungeKutta4```,
-```RosenbrockGilbert4```,
-```DormanPrince8```
+```DormanPrince8```,
+```Heun2```,
+```Fehlberg6```,
+```BogackiShampine4```
 ```Cpp
 myEquation.setButcherTableau(caso::RungeKutta4);
 ```
@@ -49,10 +51,16 @@ It will return std::vector<double> = { $y^{(n)}, y^{(n-1)},..., y'', y'$ }
 std::vector<double> answer = myEquation.rungeKutta();
 ```
 ```Cpp
-std::vector<double> answer = myEquation.adamsBashforth();
+std::vector<double> answer = myEquation.forwardEuler();
 ```
 ```Cpp
-std::vector<double> answer = myEquation.euler();
+std::vector<double> answer = myEquation.backwardEuler();
+```
+```Cpp
+std::vector<double> answer = myEquation.midpoint();
+```
+```Cpp
+std::vector<double> answer = myEquation.implicitMidpoint();
 ```
 you can also set a step if you didn't set it during initialization or want to try another one for a solution.
 ```Cpp
