@@ -1,5 +1,11 @@
-# 1. About caso (CAuchy SOlver)
-This is header-only C++ library for solving Cauchy problem using numerical methods.
+- [1. About caso](#1-about-caso)
+- [2. Usage](#2-usage)
+- 	- [2.1. Start](#21-start)
+	- [2.2. Butcher tableau](#22-butcher-tableau)
+	- [2.3. Call the method](#23-call-the-method)
+- [3. Documentation](#3-documentation)
+# 1. About caso
+caso (CAuchy SOlver) - this is header-only C++ library for solving Cauchy problem using numerical methods.
 
 There are 5 methods: ```Runge-Kutta```, ```Forward Euler```, ```Backward Euler```, ```midpoint```, ```implicit midpoint``` and 5 Butcher tableaus for Runge-Kutta method.
 # 2. Usage
@@ -7,7 +13,7 @@ Let's take $$y''' + 3y'' + 3y' + y - x = 0, \quad y(0) = -1, \quad y'(0) = 2, \q
 
 Add ```#include "caso.h"``` into your project.
 
-## 2.1 
+## 2.1 Start
 First of all you need to initialize an instance of the ODE class.
 You can do this with function for system of equations:
 ```Cpp
@@ -34,7 +40,8 @@ myEquation.setEquationWithSystem(f);
 myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ```
 
-## 2.2 Set the Butcher tableau for your method (if it is Runge-Kutta)
+## 2.2 Butcher tableau
+Set the Butcher tableau for your method (if it is Runge-Kutta)
 There are 5 Butcher tableaus for Runge-Kutta method:
 ```RungeKutta4```,
 ```DormanPrince8```,
@@ -66,3 +73,6 @@ you can also set a step if you didn't set it during initialization or want to tr
 ```Cpp
 std::vector<double> answer = myEquation.rungeKutta(0.01);
 ```
+
+# 3. Documentation
+[Documentation](https://d33fur.github.io/caso/index.html)
