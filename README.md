@@ -19,17 +19,17 @@ void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
 ```
 And here are a few ways to set initial conditions of Cauchy problem:
 ```Cpp
-crk4::ODE myEquation(f, {-1, 2, 3}, 0, 1);
+caso::ODE myEquation(f, {-1, 2, 3}, 0, 1);
 ```
 ```Cpp
-crk4::ODE myEquation(f, {-1, 2, 3}, 0, 1, 0.01);
+caso::ODE myEquation(f, {-1, 2, 3}, 0, 1, 0.01);
 ```
 ```Cpp
-crk4::ODE myEquation(f);
+caso::ODE myEquation(f);
 myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ```
 ```Cpp
-crk4::ODE myEquation;
+caso::ODE myEquation;
 myEquation.setEquationWithSystem(f);
 myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ```
