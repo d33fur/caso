@@ -1,7 +1,7 @@
 # 1. About caso (CAuchy SOlver)
 This is header-only C++ library for solving Cauchy problem using numerical methods.
 
-There are 5 methods: ```Runge-Kutta```, ```Adams-Bashforth```, ```Forward Euler```, ```Backward Euler```, ```midpoint```, ```implicit midpoint``` and 5 Butcher tableaus for Runge-Kutta method.
+There are 5 methods: ```Runge-Kutta```, ```Forward Euler```, ```Backward Euler```, ```midpoint```, ```implicit midpoint``` and 5 Butcher tableaus for Runge-Kutta method.
 # 2. Usage
 Let's take $$y''' + 3y'' + 3y' + y = 0, \quad y(0) = -1, \quad y'(0) = 2, \quad y''(0) = 3, \quad x \in [0, 1], \quad h = 0.01$$ Cauchy problem and solve it.
 
