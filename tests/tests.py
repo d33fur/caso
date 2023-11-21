@@ -1,45 +1,73 @@
-import unittest
-import subprocess
+import cppyy
+import pytest
 import os
-import ctypes
 
-class TestODELibrary(unittest.TestCase):
+headerFilePath = os.path.join(os.path.dirname(__file__), "caso.h")
 
-    lib = ctypes.cdll.LoadLibrary("../caso.h")
+cppyy.include(headerFilePath)
 
-    def testRungeKutta(self):
-        result = self.runCppTest("RungeKutta4")
-        self.assertEqual(result, 2)
+caso = cppyy.gbl
 
-    def testForwardEuler(self):
-        # Напишите тест для метода прямого Эйлера
-        result = self.runCppTest("forwardEuler")
-        self.assertEqual(result, 2)
+RungeKuttaTable = cppyy.gbl.std.vector[cppyy.gbl.std.vector[float]](
+    [
+        [0.],
+        [1. / 2., 1. / 2.],
+        [1. / 2., 0., 1. / 2.],
+        [1., 0., 0., 1.],
+        [1. / 6., 1. / 3., 1. / 3., 1. / 6.]
+    ]
+)
 
-    def testBackwardEuler(self):
-        # Напишите тест для метода обратного Эйлера
-        result = self.runCppTest("backwardEuler")
-        self.assertEqual(result, 2)
+DormanPrinceTable = cppyy.gbl.std.vector[cppyy.gbl.std.vector[float]](
+    [
+        [0.],
+        [1. / 5., 1. / 5.],
+        [3. / 10., 3. / 40., 9. / 40.],
+        [4. / 5., 44. / 45., -56. / 15., 32. / 9.],
+        [8. / 9., 19372. / 6561., -31760. / 2187., 10448. / 6561., 0., 25360. / 2187.],
+        [1., 9017. / 3168., -355. / 33., 46732. / 5247., 49. / 176., -5103. / 18656., 0., 5. / 143.],
+        [1. / 2., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.],
+        [35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.],
+        [71. / 57600., 0., -71. / 16695., 71. / 1920., -17253. / 339200., 22. / 525., -1. / 40]
+    ]
+)
 
-    def testMidpoint(self):
-        # Напишите тест для метода средней точки
-        result = self.runCppTest("midpoint")
-        self.assertEqual(result, 2)
+HeunTable = cppyy.gbl.std.vector[cppyy.gbl.std.vector[float]](
+    [
+        [0.],
+        [1., 1.],
+        [1. / 2., 1. / 2.],
+        [1., 0.],
+    ]
+)
 
-    def testImplicitMidpoint(self):
-        # Напишите тест для неявного метода средней точки
-        result = self.runCppTest("implicitMidpoint")
-        self.assertEqual(result, 2)
+FehilbergTable = cppyy.gbl.std.vector[cppyy.gbl.std.vector[float]](
+    [
+        [0.],
+        [1. / 4., 1. / 4.],
+        [3. / 8., 3. / 32., 9. / 32.],
+        [12. / 13., 1932. / 2197., -7200. / 2197., 7296. / 2197.],
+        [1., 439. / 216., -8., 3680. / 513., -845. / 4104.],
+        [1. / 2., -8. / 27., 2., -3544. / 2565., 1859. / 4104., -11. / 40.],
+        [25. / 216., 0., 1408. / 2565., 2197. / 4104., -1. / 5., 0.],
+        [-1. / 360., 0., 128. / 4275., 2197. / 75240., -1. / 50., -2. / 55.]
+    ]
+)
 
-    # Добавьте больше тестов для других методов по мере необходимости
+BogackiShampineTable = cppyy.gbl.std.vector[cppyy.gbl.std.vector[float]](
+    [
+        [0.],
+        [1. / 2., 1. / 2.],
+        [3. / 4., 0., 3. / 4.],
+        [1., 2. / 9., 1. / 3., 4. / 9.],
+        [2. / 9., 1. / 3., 4. / 9., 0.],
+        [-7. / 72., 1. / 12., 1. / 9., -1. / 8.]
+    ]
+)
 
-    def runCppTest(self, method):
-        # Запустите программу на C++ с указанным методом и запишите вывод
-        # Подстройте команду в зависимости от вашей системы сборки
-        command = ["./../build/caso", method]
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        output, _ = process.communicate()
-        return output.strip()
+def testRungeKutta(capsys):
+    result = caso.rungeKutta
 
-if __name__ == '__main__':
-    unittest.main()
+    expectedOutput = 
+
+    assert result == expectedOutput
