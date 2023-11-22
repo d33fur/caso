@@ -10,4 +10,6 @@ xs: float = 0.25 #step
 
 #equation initialization
 
-testsSrc.valSet.setValues(testsSrc.f4(y, x), y, x, xl, xr, xs)
+testsSrc.valSet.setValues(testsSrc.f4, y, x, xl, xr, xs)
+
+testsSrc.startTests()

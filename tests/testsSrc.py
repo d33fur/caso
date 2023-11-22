@@ -2,10 +2,11 @@ import cppyy
 import os
 import math
 
-headerFilePath = os.path.join(f"{os.path.dirname(__file__)}", "caso.h")
-
-cppyy.include("/Users/jungdongwook/vscode/caso/caso.h")
-#cppyy.include(headerFilePath)
+#linking library
+currentDir = os.path.dirname(os.path.abspath(__file__))
+caso_dir = os.path.dirname(currentDir)
+headerFilePath = os.path.join(caso_dir, "caso.h")
+cppyy.include(headerFilePath)
 
 casoH = cppyy.gbl
 
@@ -18,6 +19,7 @@ x: float
 
 M_E = math.e
 
+#types of equations
 def f0(yInp, xInp):
     global dydx, y, x
     y = yInp
@@ -46,59 +48,57 @@ def f3(yInp, xInp):
     dydx = cppyy.gbl.std.vector[float](
         [(-2) * yInp[0] + xInp])
     
-def f4(yInp, xInp):
+def f4(dydx, yInp, xInp):
     global dydx, y, x
     y = yInp
     x = xInp
     dydx = cppyy.gbl.std.vector[float](
         [(-2) * yInp[0]])
 
-class testList:
 
+class testList:
     def zeroStep():
-        global xs
-        defNum = 1
-        xs = 0
-        valSet.returnDefVal(defNum, xs) #todo: придумать куда деть
+        xsTest = 0
 
     def maxStep():
-        global xs
         defNum = 1
-        xs = 2
-        valSet.returnDefVal(defNum, xs)
+        xsTest = 2
 
     def LEquR():
-        global xl, xr
+        global xr
         defNum = 2
-        xl = xr
-        valSet.returnDefVal(defNum, xl)
+        xlTest = xr
 
 class valSet:
-    def setValues(func, yInp, xInp, xlInp, xrInp, xsInp):
+    def setValues(funcInp, yInp, xInp, xlInp, xrInp, xsInp):
         #using "global" for changing global variables values
-        global dydx, y, x, xl, xr, xs
+        global dydx, y, x, xl, xr, xs, func
+        func = funcInp
         y = yInp
         x = xInp
         xl = xlInp
         xr = xrInp
         xs = xsInp
-        print(dydx, y, x, xl, xr, xs)
-    
-    def returnDefVal(self, defNum):
+       
+    '''def returnDefVal(self, defNum): (дописать потом, не стирать)
         global xl, xr, xs, x
         match defNum:
             case 1:
                 xs = 0.25
             case 2:
                 xl = 1.0
-                xr = 3.0
+                xr = 3.0'''
 
-#ODE class object initialization
-'''a = casoH.caso.ODE(dydx, y, xl, xr, xs)
+def startTests():
+    print("Start test of Runge Kutta")
+    #ODE class object initialization
+    a = casoH.caso.ODE(func, y, xl, xr, xs)
+    a.setButcherTableau(casoH.caso.RungeKutta4)
+    answer = a.rungeKutta()
 
-casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
+#casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
 
-result = a.casoH.rungeKutta()
+'''result = a.casoH.rungeKutta()
 
 expectedOutput = [0, 2]
 
@@ -116,9 +116,9 @@ def testRungeKutta(capsys):
 
     for i in range(len(result)):
         print ("asdasdasdasd")
-        print (result[i])
+        print (result[i])'''
 
-    ''''''for i in range(len(expectedOutput)):
+'''for i in range(len(expectedOutput)):
         if expectedOutput[i] == result[i]:
             continue
         else:
