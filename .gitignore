@@ -33,5 +33,7 @@
 
 build/
 doc/
-.__pycache__/
-.pytest_cache/
+
+tests/__pycache__/
+tests/.pytest_cache/
+.vscode/
