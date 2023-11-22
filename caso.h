@@ -20,10 +20,12 @@ namespace caso {
         Fehlberg6,
         BogackiShampine4
     };
+
     /**
      * @brief Class for solving ordinary differential equations.
      */
     class ODE {
+
         /**
          * @brief Type of ODE system of equations.
          * @param dydx Derivative variables
@@ -54,6 +56,7 @@ namespace caso {
         void setEquationWithSystem(const odeS& inputOdeSystem) {
             odeSystem = inputOdeSystem;
         }
+
         /**
          * @brief Sets start values for ODE.
          * @param yStartValues Start values of the derivatives
@@ -67,6 +70,7 @@ namespace caso {
             xRight = inputXRight;
             xStep = step;
         }
+
         /**
          * @brief Sets Butcher tableau for Runge-Kutta method.
          * @param tableName Butcher tableau name from ButcherTableau type
@@ -78,6 +82,7 @@ namespace caso {
                 throw std::invalid_argument("Invalid Butcher table name.");
             }
         }
+
         /**
          * @brief Solves ODE with Runge-Kutta method.
          * @param step Step or h for X
@@ -86,6 +91,7 @@ namespace caso {
             currentIterFunction = &caso::ODE::rungeKuttaIteration;
             return solveMethod(step);
         }
+
         /**
          * @brief Solves ODE with forward Euler method.
          * @param step Step or h for X
@@ -95,6 +101,7 @@ namespace caso {
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
+
         /**
          * @brief Solves ODE with Backward Euler method.
          * @param step Step or h for X
@@ -104,6 +111,7 @@ namespace caso {
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
+
         /**
          * @brief Solves ODE with midpoint method.
          * @param step Step or h for X
@@ -113,6 +121,7 @@ namespace caso {
             setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
+
         /**
          * @brief Solves ODE with implicit midpoint method.
          * @param step Step or h for X
@@ -149,6 +158,7 @@ namespace caso {
             //std::cout << "n : " << n << std::endl;
             return currentY;
         }
+
         /**
          * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
          */
@@ -167,6 +177,7 @@ namespace caso {
                 changeStep(k);
             }
         }
+
         /**
          * @brief Implementation of the forward Euler algorithm iteration.
          */
@@ -175,6 +186,7 @@ namespace caso {
             odeSystem(k1, currentY, xLeft);
             addVectorByScalar(currentY, k1, xStep);
         }
+
         /**
          * @brief Implementation of the backward Euler algorithm iteration.
          */
@@ -196,6 +208,7 @@ namespace caso {
             odeSystem(k1, temp1, xLeft + xStep);
             addVectorByScalar(currentY, k1, xStep);
         }
+
         /**
          * @brief Implementation of the midpoint algorithm iteration.
          */
@@ -209,6 +222,7 @@ namespace caso {
             odeSystem(k2, temp, xLeft + xStep / 2.);
             addVectorByScalar(currentY, k2, xStep);
         }
+
         /**
          * @brief Implementation of the implicit midpoint algorithm iteration.
          */
@@ -230,6 +244,7 @@ namespace caso {
             odeSystem(k1, temp1, xLeft + xStep / 2.);
             addVectorByScalar(currentY, k1, xStep);
         }
+
         /**
          * @brief Calculates a new step value based on the magnitude of the error value.
          * @param k Matrix of coefficients
@@ -243,6 +258,7 @@ namespace caso {
                 xStep *= 2.0;
             }
         }
+
         /**
          * @brief Calculates the error value using the last 2 lines of the Butcher tableau.
          * @param k Matrix of coefficients
@@ -255,6 +271,7 @@ namespace caso {
             }
             return xStep * error;
         }
+
         /**
          * @brief Checks convergence using previous and current Y values.
          * @param previous Previous Y values
@@ -269,6 +286,7 @@ namespace caso {
             }
             return true;
         }
+
         /**
          * @brief Computes coefficients of Runge-Kutta method using currentButcherTableau.
          * @param k Matrix of coefficients
@@ -283,6 +301,7 @@ namespace caso {
                 odeSystem(k[i], temp, xLeft + currentButcherTableau[i][0] * xStep);
             }
         }
+
         /**
          * @brief Checks convergence using previous and current Y values.
          * @param result Vector to which vec will be added element-wise after multiplication
@@ -293,6 +312,7 @@ namespace caso {
             std::transform(result.begin(), result.end(), vec.begin(), result.begin(),
                            [scalar](double i1, double i2) { return i1 + i2 * scalar; });
         }
+
         /**
          * @brief Causes fields to be checked.
          */
@@ -330,6 +350,7 @@ namespace caso {
             }
         }
 
+
         //! ODE system function.
         odeS odeSystem;
         //! Pointer to a current numerical method iteration.
@@ -346,6 +367,7 @@ namespace caso {
         double xRight = NAN;
         //! Current step or h for X.
         double xStep = NAN;
+
         //! Map with Butcher tableaus.
         std::unordered_map<ButcherTableau, const std::vector<std::vector<double>>> butcherTablesMap = {
             {
