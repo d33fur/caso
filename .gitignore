@@ -33,3 +33,5 @@
 
 build/
 doc/
+.__pycache__/
+.pytest_cache/
