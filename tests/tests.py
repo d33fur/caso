@@ -7,7 +7,7 @@ headerFilePath = os.path.join(f"{os.path.dirname(__file__)}", "caso.h")
 cppyy.include("/Users/jungdongwook/vscode/caso/caso.h")
 #cppyy.include(headerFilePath)
 
-caso = cppyy.gbl
+casoH = cppyy.gbl
 
 #y-values initialization
 y = cppyy.gbl.std.vector[float] (
@@ -45,10 +45,10 @@ def returnDefVal(defNum, value):
             xl = 1.0
             xr = 3.0
 
-a = caso.ODE(dydx, y, x, xr, xs)
-caso.setButcherTableau(caso.RungeKutta4)
+a = casoH.caso.ODE(dydx, y, x, xr, xs)
+casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
 
-result = a.rungeKutta()
+result = a.casoH.rungeKutta()
 
 expectedOutput = [0, 2]
 
@@ -57,8 +57,8 @@ for i in range(len(result)):
     print (result[i])
 
 def testRungeKutta(capsys):
-    a = caso.ODE(dydx, y, x, xr, xs)
-    caso.setButcherTableau(caso.RungeKutta4)
+    a = casoH.ODE(dydx, y, x, xr, xs)
+    casoH.setButcherTableau(casoH.RungeKutta4)
 
     result = a.rungeKutta()
 
