@@ -1,4 +1,4 @@
-import testsSrc
+'''import testsSrc
 import pytest
 import cppyy
 
@@ -11,4 +11,4 @@ x: float = 0
 dydx = cppyy.gbl.std.vector[float] (
     [(-2) * y[0] + x])
 
-testsSrc.varsInit.
+testsSrc.varsInit.'''

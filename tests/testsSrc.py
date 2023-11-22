@@ -1,5 +1,6 @@
 import cppyy
 import os
+import math
 
 headerFilePath = os.path.join(f"{os.path.dirname(__file__)}", "caso.h")
 
@@ -12,8 +13,46 @@ xl: float #left border
 xr: float #right border
 xs: float #step
 x: float
+dydx = cppyy.gbl.std.vector[float]
 
-y = cppyy.gbl.std.vector[float] ([2]) #y-values initialization
+M_E = math.e
+
+y = cppyy.gbl.std.vector[float] #y-values list declaration
+
+def f0(yInp, xInp):
+    global dydx, y, x
+    y = yInp
+    x = xInp
+    dydx = cppyy.gbl.std.vector[float](
+        [(-3) * yInp[0]])
+    
+def f1(yInp, xInp):
+    global dydx, y, x
+    y = yInp
+    x = xInp
+    dydx = cppyy.gbl.std.vector[float](
+        [3 * xInp * xInp * yInp[0] + xInp * xInp * math.pow(M_E, math.pow(xInp, 3))])
+
+def f2(yInp, xInp):
+    global dydx, y, x
+    y = yInp
+    x = xInp
+    dydx = cppyy.gbl.std.vector[float](
+        [(-2) * xInp * yInp[0]])
+
+def f3(yInp, xInp):
+    global dydx, y, x
+    y = yInp
+    x = xInp
+    dydx = cppyy.gbl.std.vector[float](
+        [(-2) * yInp[0] + xInp])
+    
+def f4(yInp, xInp):
+    global dydx, y, x
+    y = yInp
+    x = xInp
+    dydx = cppyy.gbl.std.vector[float](
+        [(-2) * yInp[0]])
 
 class testList:
 
@@ -21,18 +60,19 @@ class testList:
         global xs
         defNum = 1
         xs = 0
-        valSet.returnDefVal(defNum, xs)
+        valSet.returnDefVal(defNum, xs) #todo: придумать куда деть
 
     def maxStep():
-        g
+        global xs
         defNum = 1
         xs = 2
         valSet.returnDefVal(defNum, xs)
 
     def LEquR():
+        global xl, xr
         defNum = 2
         xl = xr
-        valSet.returnDefVal(defNum, xs)
+        valSet.returnDefVal(defNum, xl)
 
 class valSet:
     def setValues(self, dydxInp, yInp, xlInp, xrInp, xsInp):
@@ -53,7 +93,9 @@ class valSet:
                 xl = 1.0
                 xr = 3.0
 
+#ODE class object initialization
 a = casoH.caso.ODE(dydx, y, xl, xr, xs)
+
 casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
 
 result = a.casoH.rungeKutta()
