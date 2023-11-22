@@ -9,15 +9,14 @@ cppyy.include("/Users/jungdongwook/vscode/caso/caso.h")
 
 casoH = cppyy.gbl
 
+dydx = cppyy.gbl.std.vector[float]
+y = cppyy.gbl.std.vector[float] #y-values list declaration
 xl: float #left border
 xr: float #right border
 xs: float #step
 x: float
-dydx = cppyy.gbl.std.vector[float]
 
 M_E = math.e
-
-y = cppyy.gbl.std.vector[float] #y-values list declaration
 
 def f0(yInp, xInp):
     global dydx, y, x
@@ -75,14 +74,15 @@ class testList:
         valSet.returnDefVal(defNum, xl)
 
 class valSet:
-    def setValues(self, dydxInp, yInp, xlInp, xrInp, xsInp):
+    def setValues(func, yInp, xInp, xlInp, xrInp, xsInp):
         #using "global" for changing global variables values
-        global dydx, y, xl, xr, xs
-        dydx = dydxInp
+        global dydx, y, x, xl, xr, xs
         y = yInp
+        x = xInp
         xl = xlInp
         xr = xrInp
         xs = xsInp
+        print(dydx, y, x, xl, xr, xs)
     
     def returnDefVal(self, defNum):
         global xl, xr, xs, x
@@ -94,7 +94,7 @@ class valSet:
                 xr = 3.0
 
 #ODE class object initialization
-a = casoH.caso.ODE(dydx, y, xl, xr, xs)
+'''a = casoH.caso.ODE(dydx, y, xl, xr, xs)
 
 casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
 
@@ -118,12 +118,12 @@ def testRungeKutta(capsys):
         print ("asdasdasdasd")
         print (result[i])
 
-    '''for i in range(len(expectedOutput)):
+    ''''''for i in range(len(expectedOutput)):
         if expectedOutput[i] == result[i]:
             continue
         else:
             
 
-    assert result == expectedOutput'''
+    assert result == expectedOutput
 
-__
+__'''
