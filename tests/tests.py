@@ -10,8 +10,7 @@ cppyy.include("/Users/jungdongwook/vscode/caso/caso.h")
 casoH = cppyy.gbl
 
 #y-values initialization
-y = cppyy.gbl.std.vector[float] (
-    [2])
+y = cppyy.gbl.std.vector[float] ([2])
 
 xl: float = 1.0 #left border
 xr: float = 3.0 #right border
@@ -19,8 +18,9 @@ xs: float = 0.25 #step
 x: float = 0
 
 #equation initialization
-dydx = cppyy.gbl.std.vector[float] (
-    [(-2) * y[0] + x])
+dydx = cppyy.gbl.std.vector[float] ()
+dydx.push_back(0.0)
+dydx[0] = (-2) * y[0] + x
 
 def zeroStep(xs):
     defNum = 1
@@ -37,7 +37,9 @@ def LEquR(xr):
     xl = xr
     returnDefVal(defNum, xs)
 
-def returnDefVal(defNum, value):
+def returnDefVal(defNum):
+    global xl, xr, xs, x
+
     match defNum:
         case 1:
             xs = 0.25
@@ -45,7 +47,7 @@ def returnDefVal(defNum, value):
             xl = 1.0
             xr = 3.0
 
-a = casoH.caso.ODE(dydx, y, x, xr, xs)
+a = casoH.caso.ODE(dydx, y, xl, xr, xs)
 casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
 
 result = a.casoH.rungeKutta()
@@ -57,7 +59,7 @@ for i in range(len(result)):
     print (result[i])
 
 def testRungeKutta(capsys):
-    a = casoH.ODE(dydx, y, x, xr, xs)
+    a = casoH.ODE(dydx, y, xl, xr, xs)
     casoH.setButcherTableau(casoH.RungeKutta4)
 
     result = a.rungeKutta()
