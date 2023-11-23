@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['dormanprince8_15',['DormanPrince8',['../namespacecaso.html#a1e078685891e658753ff9e39f886ef67a0fc2248062bd4ceee5bb3393c7ac3f47',1,'caso']]]
+  ['forwardeuler_14',['forwardEuler',['../classcaso_1_1ODE.html#a1d56a1861f183d0744afa01f428d740e',1,'caso::ODE']]],
+  ['forwardeuleriteration_15',['forwardEulerIteration',['../classcaso_1_1ODE.html#a520163c5bcd75cd3934f4ca4e9582b86',1,'caso::ODE']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bogackishampine4_78',['BogackiShampine4',['../namespacecaso.html#a1e078685891e658753ff9e39f886ef67a9b1527aee98b9630a10e57194376d046',1,'caso']]]
+  ['heuneuler2_92',['HeunEuler2',['../classcaso_1_1ODE.html#a3ae31ff819622d878b051ce22d89e990a8fe52f9ea51b194d82fd2a406d8c74c6',1,'caso::ODE']]]
 ];

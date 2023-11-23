@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['heun2_19',['Heun2',['../namespacecaso.html#a1e078685891e658753ff9e39f886ef67a7f9f4ab32f25438f1273cd7268fa4e1d',1,'caso']]]
+  ['implicitmidpoint_19',['implicitMidpoint',['../classcaso_1_1ODE.html#a53a535d20023da5797371ffe096c2ba1',1,'caso::ODE']]],
+  ['implicitmidpointmethoditeration_20',['implicitMidpointMethodIteration',['../classcaso_1_1ODE.html#a19d2278af0f1eef7796a51392b2caa2e',1,'caso::ODE']]],
+  ['iterfunction_21',['IterFunction',['../classcaso_1_1ODE.html#a37998b303ffa7514e67f16f591e2f612',1,'caso::ODE']]]
 ];

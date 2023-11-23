@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['butchertableau_77',['ButcherTableau',['../namespacecaso.html#a1e078685891e658753ff9e39f886ef67',1,'caso']]]
+  ['butchertableau_91',['ButcherTableau',['../classcaso_1_1ODE.html#a3ae31ff819622d878b051ce22d89e990',1,'caso::ODE']]]
 ];
