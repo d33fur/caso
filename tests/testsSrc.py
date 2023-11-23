@@ -20,41 +20,25 @@ x: float
 M_E = math.e
 
 #types of equations
-def f0(yInp, xInp):
-    global dydx, y, x
-    y = yInp
-    x = xInp
+def f0(dydxInp, yInp, xInp):
     dydx = cppyy.gbl.std.vector[float](
         [(-3) * yInp[0]])
     
-def f1(yInp, xInp):
-    global dydx, y, x
-    y = yInp
-    x = xInp
+def f1(dydxInp, yInp, xInp):
     dydx = cppyy.gbl.std.vector[float](
         [3 * xInp * xInp * yInp[0] + xInp * xInp * math.pow(M_E, math.pow(xInp, 3))])
 
-def f2(yInp, xInp):
-    global dydx, y, x
-    y = yInp
-    x = xInp
+def f2(dydxInp, yInp, xInp):
     dydx = cppyy.gbl.std.vector[float](
         [(-2) * xInp * yInp[0]])
 
-def f3(yInp, xInp):
-    global dydx, y, x
-    y = yInp
-    x = xInp
+def f3(dydxInp, yInp, xInp):
     dydx = cppyy.gbl.std.vector[float](
         [(-2) * yInp[0] + xInp])
     
-def f4(dydx, yInp, xInp):
-    global dydx, y, x
-    y = yInp
-    x = xInp
+def f4(dydxInp, yInp, xInp):
     dydx = cppyy.gbl.std.vector[float](
         [(-2) * yInp[0]])
-
 
 class testList:
     def zeroStep():
@@ -94,7 +78,7 @@ def startTests():
     #ODE class object initialization
     a = casoH.caso.ODE(func, y, xl, xr, xs)
     a.setButcherTableau(casoH.caso.RungeKutta4)
-    answer = a.rungeKutta()
+    answer = a.rungeKutta() #ошибка 301 строка хедера
 
 #casoH.caso.ODE.setButcherTableau(casoH.RungeKutta4)
 
