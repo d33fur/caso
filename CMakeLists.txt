@@ -4,9 +4,17 @@ project(caso LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
+include_directories(tests)
+
 find_package(Doxygen REQUIRED)
 
+find_package(Catch2 3 REQUIRED)
+
+add_executable(tests tests/unitTest.cpp)
+
 add_executable(${PROJECT_NAME} main.cpp caso.h)
+
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 
 if(DOXYGEN_FOUND)
     set(DOXYGEN_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
