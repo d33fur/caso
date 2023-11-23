@@ -11,17 +11,6 @@
 namespace caso {
 
     /**
-     * @brief Enum type Butcher Tableaus for Runge-Kutta method.
-     */
-    enum ButcherTableau {
-        RungeKutta4,
-        DormanPrince8,
-        Heun2,
-        Fehlberg6,
-        BogackiShampine4
-    };
-
-    /**
      * @brief Class for solving ordinary differential equations.
      */
     class ODE {
@@ -72,23 +61,52 @@ namespace caso {
         }
 
         /**
-         * @brief Sets Butcher tableau for Runge-Kutta method.
-         * @param tableName Butcher tableau name from ButcherTableau type
+         * @brief Solves ODE with Runge-Kutta method.
+         * @param step Step or h for X
          */
-        void setButcherTableau(ButcherTableau tableName) {
-            if(butcherTablesMap.find(tableName) != butcherTablesMap.end()) {
-                currentButcherTableau = butcherTablesMap[tableName];
-            } else {
-                throw std::invalid_argument("Invalid Butcher table name.");
-            }
+        std::vector<double> rungeKutta4(double step = -1.0) {
+            currentIterFunction = &caso::ODE::rungeKutta4Iteration;
+            currentButcherTableau = butcherTablesMap[RungeKutta4];
+            return solveMethod(step);
         }
 
         /**
          * @brief Solves ODE with Runge-Kutta method.
          * @param step Step or h for X
          */
-        std::vector<double> rungeKutta(double step = -1.0) {
-            currentIterFunction = &caso::ODE::rungeKuttaIteration;
+        std::vector<double> rungeKuttaDormandPrince8(double step = -1.0) {
+            currentIterFunction = &caso::ODE::rungeKuttaDormandPrince8Iteration;
+            currentButcherTableau = butcherTablesMap[RungeKuttaDormandPrince8];
+            return solveMethod(step);
+        }
+
+        /**
+         * @brief Solves ODE with Runge-Kutta method.
+         * @param step Step or h for X
+         */
+        std::vector<double> heunEuler2(double step = -1.0) {
+            currentIterFunction = &caso::ODE::heunEuler2Iteration;
+            currentButcherTableau = butcherTablesMap[HeunEuler2];
+            return solveMethod(step);
+        }
+
+        /**
+         * @brief Solves ODE with Runge-Kutta method.
+         * @param step Step or h for X
+         */
+        std::vector<double> rungeKuttaFehlberg6(double step = -1.0) {
+            currentIterFunction = &caso::ODE::rungeKuttaFehlberg6Iteration;
+            currentButcherTableau = butcherTablesMap[RungeKuttaFehlberg6];
+            return solveMethod(step);
+        }
+
+        /**
+         * @brief Solves ODE with Runge-Kutta method.
+         * @param step Step or h for X
+         */
+        std::vector<double> rungeKuttaBogackiShampine4(double step = -1.0) {
+            currentIterFunction = &caso::ODE::rungeKuttaBogackiShampine4Iteration;
+            currentButcherTableau = butcherTablesMap[RungeKuttaBogackiShampine4];
             return solveMethod(step);
         }
 
@@ -98,7 +116,6 @@ namespace caso {
          */
         std::vector<double> forwardEuler(double step = -1.0) {
             currentIterFunction = &caso::ODE::forwardEulerIteration;
-            setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
 
@@ -108,7 +125,6 @@ namespace caso {
          */
         std::vector<double> backwardEuler(double step = -1.0) {
             currentIterFunction = &caso::ODE::backwardEulerIteration;
-            setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
 
@@ -118,7 +134,6 @@ namespace caso {
          */
         std::vector<double> midpoint(double step = -1.0) {
             currentIterFunction = &caso::ODE::midpointMethodIteration;
-            setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
 
@@ -128,7 +143,6 @@ namespace caso {
          */
         std::vector<double> implicitMidpoint(double step = -1.0) {
             currentIterFunction = &caso::ODE::implicitMidpointMethodIteration;
-            setButcherTableau(caso::RungeKutta4);
             return solveMethod(step);
         }
 
@@ -149,20 +163,44 @@ namespace caso {
             currentY = yStart;
             size_t n = 0;
             while(xLeft < xRight) {
-                //if(n%100 == 0)
-                    //std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << std::endl;
+                // if(n%100 == 0)
+                //     std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << std::endl;
                 (this->*currentIterFunction)();
                 xLeft += xStep;
                 n++;
             }
-            //std::cout << "n : " << n << std::endl;
+            std::cout << "n : " << n << std::endl;
             return currentY;
         }
 
         /**
          * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
          */
-        void rungeKuttaIteration() {
+        void rungeKutta4Iteration() {
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
+            std::vector<double> temp = currentY;
+            odeSystem(k[0], currentY, xLeft);
+            addVectorByScalar(temp, k[0], xStep / 2.);
+            odeSystem(k[1], temp, xLeft + xStep / 2.);
+            temp = currentY;
+            addVectorByScalar(temp, k[1], xStep / 2.);
+            odeSystem(k[2], temp, xLeft + xStep / 2.);
+            temp = currentY;
+            addVectorByScalar(temp, k[2], xStep);
+            odeSystem(k[3], temp, xLeft + xStep);
+
+            std::fill(temp.begin(), temp.end(), 0);
+            addVectorByScalar(temp, k[0], 1. / 6.);
+            addVectorByScalar(temp, k[1], 1. / 3.);
+            addVectorByScalar(temp, k[2], 1. / 3.);
+            addVectorByScalar(temp, k[3], 1. / 6.);
+            addVectorByScalar(currentY, temp, xStep);
+        }
+
+        /**
+         * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
+         */
+        void rungeKuttaDormandPrince8Iteration() {
             std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
             std::vector<double> temp(currentY.size());
             computeK(k);
@@ -173,9 +211,75 @@ namespace caso {
             }
             addVectorByScalar(currentY, temp, xStep);
 
-            if(currentButcherTableau != butcherTablesMap[caso::RungeKutta4]) {
+            if(currentButcherTableau != butcherTablesMap[RungeKutta4]) {
                 changeStep(k);
             }
+        }
+
+        /**
+         * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
+         */
+        void heunEuler2Iteration() {
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
+            std::vector<double> temp(currentY.size());
+            computeK(k);
+
+            for(size_t i = 0; i < currentButcherTableau.back().size(); i++) {
+
+                addVectorByScalar(temp, k[i], currentButcherTableau[currentButcherTableau.size() - 2][i]);
+            }
+            addVectorByScalar(currentY, temp, xStep);
+
+            if(currentButcherTableau != butcherTablesMap[RungeKutta4]) {
+                changeStep(k);
+            }
+        }
+
+        /**
+         * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
+         */
+        void rungeKuttaFehlberg6Iteration() {
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
+            std::vector<double> temp(currentY.size());
+            computeK(k);
+
+            for(size_t i = 0; i < currentButcherTableau.back().size(); i++) {
+
+                addVectorByScalar(temp, k[i], currentButcherTableau[currentButcherTableau.size() - 2][i]);
+            }
+            addVectorByScalar(currentY, temp, xStep);
+
+            if(currentButcherTableau != butcherTablesMap[RungeKutta4]) {
+                changeStep(k);
+            }
+        }
+
+        /**
+         * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
+         */
+        void rungeKuttaBogackiShampine4Iteration() {
+            std::vector<std::vector<double>> k(currentButcherTableau.size() - 2, std::vector<double>(currentY.size()));
+            std::vector<double> temp = currentY, temp1 = currentY;
+            odeSystem(k[0], currentY, xLeft);
+            addVectorByScalar(temp, k[0], xStep / 2.);
+            odeSystem(k[1], temp, xLeft + xStep / 2.);
+            temp = currentY;
+            addVectorByScalar(temp, k[1], xStep * 3. / 4.);
+            odeSystem(k[2], temp, xLeft + xStep * 3. / 4.);
+
+            temp = currentY;
+            for(size_t i = 0; i < currentY.size(); i++) {
+                temp[i] += 2. / 9. * xStep * k[0][i] + 1. / 3. * xStep * k[1][i] + 4. / 9. * xStep * k[2][i];
+            }
+            
+            odeSystem(k[3], currentY, xLeft + xStep);
+
+            temp1 = currentY;
+            for(size_t i = 0; i < currentY.size(); i++) {
+                temp1[i] += 7. / 24. * xStep * k[0][i] + 1. / 4. * xStep * k[1][i] + 1. / 3. * xStep * k[2][i] + 1. / 8. * xStep * k[3][i];
+            }
+
+            currentY = temp;
         }
 
         /**
@@ -252,11 +356,15 @@ namespace caso {
         void changeStep(const std::vector<std::vector<double>>& k) {
             const double tolerance = 1e-4;
             double error = computeError(k);
-            if(error != 0.0) {
-                xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
-            } else {
-                xStep *= 2.0;
-            }
+            xStep *= std::pow((1 / error), 1. / (currentButcherTableau.size() - 2 + 1));
+            // if(std::abs(error) < tolerance) {
+                
+            //     //xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
+            //     //xStep--;
+            // } 
+            // else {
+            //     xStep *= 2.0;
+            // }
         }
 
         /**
@@ -344,12 +452,18 @@ namespace caso {
             if(xStep <= 0) {
                 throw std::invalid_argument("Invalid value for xStep. It must be greater than 0.");
             }
-
-            if(currentButcherTableau.empty()) {
-                throw std::invalid_argument("Butcher table are not set.");
-            }
         }
 
+        /**
+         * @brief Enum type Butcher Tableaus for Runge-Kutta method.
+         */
+        enum ButcherTableau {
+            RungeKutta4,
+            RungeKuttaDormandPrince8,
+            HeunEuler2,
+            RungeKuttaFehlberg6,
+            RungeKuttaBogackiShampine4
+        };
 
         //! ODE system function.
         odeS odeSystem;
@@ -380,7 +494,7 @@ namespace caso {
                 }
             },
             {
-                DormanPrince8, {
+                RungeKuttaDormandPrince8, {
                     {0.},
                     {1. / 5., 1. / 5.},
                     {3. / 10., 3. / 40., 9. / 40.},
@@ -389,11 +503,12 @@ namespace caso {
                     {1., 9017. / 3168., -355. / 33., 46732. / 5247., 49. / 176., -5103. / 18656., 0., 5. / 143.},
                     {1. / 2., 35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.},
                         {35. / 384., 0., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 0.},
-                        {71. / 57600., 0., -71. / 16695., 71. / 1920., -17253. / 339200., 22. / 525., -1. / 40}
+                        //{71. / 57600., 0., -71. / 16695., 71. / 1920., -17253. / 339200., 22. / 525., -1. / 40}
+                        {5179. / 57600., 0., 7571. / 16695., 396. / 640., -92097. / 339200., 187. / 2100., 1. / 40}
                 }
             },
             {
-                Heun2, {
+                HeunEuler2, {
                     {0.},
                     {1., 1.},
                         {1. / 2., 1. / 2.},
@@ -402,25 +517,28 @@ namespace caso {
                 }
             },
             {
-                Fehlberg6, {
+                RungeKuttaFehlberg6, {
                     {0.},
                     {1. / 4., 1. / 4.},
                     {3. / 8., 3. / 32., 9. / 32.},
                     {12. / 13., 1932. / 2197., -7200. / 2197., 7296. / 2197.},
                     {1., 439. / 216., -8., 3680. / 513., -845. / 4104.},
                     {1. / 2., -8. / 27., 2., -3544. / 2565., 1859. / 4104., -11. / 40.},
-                        {25. / 216., 0., 1408. / 2565., 2197. / 4104., -1. / 5., 0.},
-                        {-1. / 360., 0., 128. / 4275., 2197. / 75240., -1. / 50., -2. / 55.}
+                        // {25. / 216., 0., 1408. / 2565., 2197. / 4104., -1. / 5., 0.},
+                        // {-1. / 360., 0., 128. / 4275., 2197. / 75240., -1. / 50., -2. / 55.}
+                        {16. / 135., 0., 6656. / 12825., 2197. / 56430., -9. / 50., 2. / 55.},
+                        {25. / 216., 0., 1408. / 2565., 2197. / 4104., -1. / 50., 0.}
                 }
             },
             {
-                BogackiShampine4, {
+                RungeKuttaBogackiShampine4, {
                     {0.},
                     {1. / 2., 1. / 2.},
                     {3. / 4., 0., 3. / 4.},
                     {1., 2. / 9., 1. / 3., 4. / 9.},
                         {2. / 9., 1. / 3., 4. / 9., 0.},
-                        {-7. / 72., 1. / 12., 1. / 9., -1. / 8.}
+                        //{-5. / 72., 1. / 12., 1. / 9., -1. / 8.}
+                        {7. / 24., 1. / 4., 1. / 3., 1. / 8.}
                 }
             }
         };
