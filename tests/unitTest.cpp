@@ -3,9 +3,15 @@
 #include <vector>
 #include <cmath>
 
-def getValues(){
-    std::vector<double> dydx;
-    double y, xl, xr, xs, x;
+std::vector<double> dydx;
+std::vector<double> y;
+
+double y, xl, xr, xs, x;
+
+class functions {
+    void function1(std::vector<double>& dydx, std::vector<double>& y, double &x){
+        dydx[0] = -3 * y[0]; 
+    }
 }
 
 TEST_CASE("All tests passed", "[caso]") {
