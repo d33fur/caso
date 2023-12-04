@@ -169,7 +169,7 @@ namespace caso {
                 xLeft += xStep;
                 n++;
             }
-            std::cout << "n : " << n << std::endl;
+            // std::cout << "n : " << n << std::endl;
             return currentY;
         }
 
