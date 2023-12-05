@@ -15,7 +15,7 @@ std::vector<double> dydx;
 std::vector<double> y {2};
 
 // std::string equation = "3x^2*y+x^2*e^(x^3)";
-std::string equation = "-2xy";
+std::string equation = "2x+y";
 
 double xl = 0.0, xr = 3.0, xs = 0.25, x = 0.0;
 
@@ -48,24 +48,32 @@ json getWolframData(){
 }
 
 double getWolframAnswer(std::string response){
-    size_t answerEnd = 0, answerBegin = 0, pipeAmount = 0;
+    size_t prevIndex = 0, pipeAmount = 0, beginIndex = 0;
     double apiAsnwer = 0.0, degree = 0;
+    std::string answerSubStr;
+    std::string apiAsnwerString;
 
-    for (int i = response.length(); i >= 0; i--){
-        if (response[i] == '|'){
+    for (int i = 0; i<response.length(); i++){
+        if (response[i] == '\n'){
+            prevIndex = i + 1;
+        }
+        if (i == response.length() - 2){
+            answerSubStr = response.substr(prevIndex, response.length() - prevIndex);
+        }
+    }
+
+    for (int i = 0; i < answerSubStr.length(); i++){
+        if (answerSubStr[i] == '|'){
             pipeAmount++;
 
             if (pipeAmount == 2){
-                answerEnd = i;
+                beginIndex = i + 1;
             }
-
             if (pipeAmount == 3){
-                answerBegin = i + 1;
-                break;
+                apiAsnwerString = answerSubStr.substr(beginIndex, i - beginIndex);
             }
         }
     }
-    std::string apiAsnwerString = response.substr(answerBegin, answerEnd - answerBegin);
 
     size_t pos = apiAsnwerString.find('^');
 
@@ -78,7 +86,7 @@ double getWolframAnswer(std::string response){
     if (pos != std::string::npos) {
         apiAsnwerString.erase(pos, apiAsnwerString.length()-pos-1);
     }
-
+    
     apiAsnwer = std::stod(apiAsnwerString) * pow(10, degree);
     return apiAsnwer;
 }
@@ -88,7 +96,7 @@ void function1(std::vector<double>& dydx, std::vector<double>& y, double x) {
 }
 
 void function2(std::vector<double>& dydx, std::vector<double>& y, double x) {
-    dydx[0] = -2 * x * y[0];
+    dydx[0] = 2 * x + y[0];
 }
 
 /*TEST_CASE("All tests passed", "[caso]") {
@@ -112,20 +120,21 @@ int main(){
     caso::ODE testObject(function2, y, xl, xr, xs);
     std::vector<double> answer = testObject.backwardEuler();
     
+    // std::cout << data <<std::endl;
     // std::cout << stepwiseResults <<std::endl;
     // std::cout << comparableAnswer <<std::endl;
     
 
-    // for (auto i : answer) {
-    //     if (round(comparableAnswer / 1e9) == round(i / 1e9)){
-    //         std::cout<<"Good!"<<std::endl;
-    //     }
-    //     else{
-    //         std::cout<<"Bad!"<<std::endl;
-    //     }
-    // }
-
     for (auto i : answer) {
-        std::cout<<i<<std::endl;
+        if (round(comparableAnswer / 1e9) == round(i / 1e9)){
+            std::cout<<"Good!"<<std::endl;
+        }
+        else{
+            std::cout<<"Bad!"<<std::endl;
+        }
     }
+
+    // for (auto i : answer) {
+    //     std::cout<<i<<std::endl;
+    // }
 }
