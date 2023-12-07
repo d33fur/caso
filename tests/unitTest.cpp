@@ -16,7 +16,8 @@ std::vector<double> y {2};
 
 // std::string equation = "3x^2*y+x^2*e^(x^3)";
 // std::string equation = "2x+y";
-std::string equation = "-2xy";
+std::string equation;
+std::string method;
 
 double xl = 0.0, xr = 3.0, xs = 0.25, x = 0.0;
 
@@ -27,16 +28,16 @@ void returnValuesToDefault(){
     x = 0.0;
 }
 
-std::string getCurrentInput(std::string& equation, double &xl, double &xr, double &xs) {
-    std::string currentValueReturn = "runge kutta method, dy/dx = " + equation + ", y(0) = 2, from " + std::to_string(xl) + " to " + std::to_string(xr) + ", h = " + std::to_string(xs);
+std::string getCurrentInput(std::string methodName, std::string& equation, double &xl, double &xr, double &xs) {
+    std::string currentValueReturn = methodName + " method, dy/dx = " + equation + ", y(0) = 2, from " + std::to_string(xl) + " to " + std::to_string(xr) + ", h = " + std::to_string(xs);
     return currentValueReturn;
 }
 
-json getWolframData(){
+json getWolframData(std::string methodName){
     std::string wolframAlphaAppId = wolframApiKey;
     std::string apiUrl = "http://api.wolframalpha.com/v2/query";
 
-    std::string input = getCurrentInput(equation, xl, xr, xs);
+    std::string input = getCurrentInput(methodName, equation, xl, xr, xs);
 
     std::string fullUrl = apiUrl + "?input=" + cpr::util::urlEncode(input) + "&format=plaintext&output=JSON&appid=" + wolframAlphaAppId;
 
@@ -96,6 +97,12 @@ double getWolframAnswer(std::string response){
 //     dydx[0] = 3 * x * x * y[0] + x * x * std::pow(M_E, std::pow(x, 3));
 // }
 
+double getComparableAnswer(std::string methodName){
+    json data = getWolframData(methodName);
+    std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
+    return getWolframAnswer(stepwiseResults);
+}
+
 
 void function1(std::vector<double>& dydx, std::vector<double>& y, double x) {
     dydx[0] = (-2) * x * y[0];
@@ -107,13 +114,24 @@ void function2(std::vector<double>& dydx, std::vector<double>& y, double x) {
 
 TEST_CASE("All tests passed", "[caso]") {
     SECTION( "Answer equality" ) {
-        json data = getWolframData();
-        std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
-        double comparableAnswer = getWolframAnswer(stepwiseResults);
+        equation = "-2xy";
+        method = "runge kutta";
+        double comparableAnswer = getComparableAnswer(method);
 
-        caso::ODE testObject(function1, y, xl, xr, xs);
-        std::vector<double> answer = testObject.rungeKutta4();
+        caso::ODE testObjectRungeKutta(function1, y, xl, xr, xs);
+        std::vector<double> answer = testObjectRungeKutta.rungeKutta4();
         
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer / 1e9) == round(i / 1e9));
+        }
+
+        equation = "2x+y";
+        method = "backward euler";
+        comparableAnswer = getComparableAnswer(method);
+
+        caso::ODE testObjectBackwardEuler(function2, y, xl, xr, xs);
+        answer = testObjectBackwardEuler.backwardEuler();
+
         for (auto i : answer){
             REQUIRE(round(comparableAnswer / 1e9) == round(i / 1e9));
         }
