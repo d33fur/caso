@@ -1,4 +1,4 @@
-//#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include "../caso.h"
 #include <vector>
 #include <cmath>
@@ -15,7 +15,8 @@ std::vector<double> dydx;
 std::vector<double> y {2};
 
 // std::string equation = "3x^2*y+x^2*e^(x^3)";
-std::string equation = "2x+y";
+// std::string equation = "2x+y";
+std::string equation = "-2xy";
 
 double xl = 0.0, xr = 3.0, xs = 0.25, x = 0.0;
 
@@ -27,7 +28,7 @@ void returnValuesToDefault(){
 }
 
 std::string getCurrentInput(std::string& equation, double &xl, double &xr, double &xs) {
-    std::string currentValueReturn = "backward Euler method, dy/dx = " + equation + ", y(0) = 2, from " + std::to_string(xl) + " to " + std::to_string(xr) + ", h = " + std::to_string(xs);
+    std::string currentValueReturn = "runge kutta method, dy/dx = " + equation + ", y(0) = 2, from " + std::to_string(xl) + " to " + std::to_string(xr) + ", h = " + std::to_string(xs);
     return currentValueReturn;
 }
 
@@ -91,50 +92,59 @@ double getWolframAnswer(std::string response){
     return apiAsnwer;
 }
 
+// void function1(std::vector<double>& dydx, std::vector<double>& y, double x) {
+//     dydx[0] = 3 * x * x * y[0] + x * x * std::pow(M_E, std::pow(x, 3));
+// }
+
+
 void function1(std::vector<double>& dydx, std::vector<double>& y, double x) {
-    dydx[0] = 3 * x * x * y[0] + x * x * std::pow(M_E, std::pow(x, 3));
+    dydx[0] = (-2) * x * y[0];
 }
 
 void function2(std::vector<double>& dydx, std::vector<double>& y, double x) {
     dydx[0] = 2 * x + y[0];
 }
 
-/*TEST_CASE("All tests passed", "[caso]") {
-    SECTION( "Equal left and right borders" ) {
+TEST_CASE("All tests passed", "[caso]") {
+    SECTION( "Answer equality" ) {
         json data = getWolframData();
         std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
         double comparableAnswer = getWolframAnswer(stepwiseResults);
 
-        caso::ODE testObject(function2, y, xl, xr, xs);
+        caso::ODE testObject(function1, y, xl, xr, xs);
         std::vector<double> answer = testObject.rungeKutta4();
-    }
-}*/
-
-int main(){
-    //xl = xr - 1; //test case
-
-    json data = getWolframData();
-    std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
-    double comparableAnswer = getWolframAnswer(stepwiseResults);
-
-    caso::ODE testObject(function2, y, xl, xr, xs);
-    std::vector<double> answer = testObject.backwardEuler();
-    
-    // std::cout << data <<std::endl;
-    // std::cout << stepwiseResults <<std::endl;
-    // std::cout << comparableAnswer <<std::endl;
-    
-
-    for (auto i : answer) {
-        if (round(comparableAnswer / 1e9) == round(i / 1e9)){
-            std::cout<<"Good!"<<std::endl;
-        }
-        else{
-            std::cout<<"Bad!"<<std::endl;
+        
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer / 1e9) == round(i / 1e9));
         }
     }
-
-    // for (auto i : answer) {
-    //     std::cout<<i<<std::endl;
-    // }
 }
+
+// int main(){
+//     //xl = xr - 1; //test case
+
+//     json data = getWolframData();
+//     std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
+//     double comparableAnswer = getWolframAnswer(stepwiseResults);
+
+//     caso::ODE testObject(function1, y, xl, xr, xs);
+//     std::vector<double> answer = testObject.rungeKutta4();
+    
+//     // std::cout << data <<std::endl;
+//     // std::cout << stepwiseResults <<std::endl;
+//     // std::cout << comparableAnswer <<std::endl;
+    
+
+//     for (auto i : answer) {
+//         if (round(comparableAnswer / 1e9) == round(i / 1e9)){
+//             std::cout<<"Good!"<<std::endl;
+//         }
+//         else{
+//             std::cout<<"Bad!"<<std::endl;
+//         }
+//     }
+
+//     // for (auto i : answer) {
+//     //     std::cout<<i<<std::endl;
+//     // }
+// }
