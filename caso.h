@@ -133,7 +133,7 @@ namespace caso {
          * @param step Step or h for X
          */
         std::vector<double> midpoint(double step = -1.0) {
-            currentIterFunction = &caso::ODE::midpointMethodIteration;
+            currentIterFunction = &caso::ODE::midpointIteration;
             return solveMethod(step);
         }
 
@@ -142,7 +142,7 @@ namespace caso {
          * @param step Step or h for X
          */
         std::vector<double> implicitMidpoint(double step = -1.0) {
-            currentIterFunction = &caso::ODE::implicitMidpointMethodIteration;
+            currentIterFunction = &caso::ODE::implicitMidpointIteration;
             return solveMethod(step);
         }
 
@@ -163,14 +163,12 @@ namespace caso {
             currentY = yStart;
             size_t n = 0;
             while(xLeft < xRight) {
-                std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << "   step : " << xStep << std::endl;
-                // if(n%100 == 0)
-                //     std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << std::endl;
+                //std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << "   step : " << xStep << std::endl;
                 (this->*currentIterFunction)();
                 xLeft += xStep;
                 n++;
             }
-            std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << "   step : " << xStep << std::endl;
+            //std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << "   step : " << xStep << std::endl;
             return currentY;
         }
 
@@ -351,7 +349,7 @@ namespace caso {
         /**
          * @brief Implementation of the midpoint algorithm iteration.
          */
-        void midpointMethodIteration() {
+        void midpointIteration() {
             std::vector<double> k1(currentY.size()), k2(currentY.size()), temp(currentY.size());
 
             odeSystem(k1, currentY, xLeft);
@@ -365,7 +363,7 @@ namespace caso {
         /**
          * @brief Implementation of the implicit midpoint algorithm iteration.
          */
-        void implicitMidpointMethodIteration() {
+        void implicitMidpointIteration() {
             std::vector<double> k1(currentY.size()), temp(currentY.size()), temp1(currentY.size());
 
             odeSystem(temp, currentY, xLeft + xStep / 2.);

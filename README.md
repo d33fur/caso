@@ -1,13 +1,12 @@
 - [1. About caso](#1-about-caso)
 - [2. Usage](#2-usage)
 - 	- [2.1. Start](#21-start)
-	- [2.2. Butcher tableau](#22-butcher-tableau)
-	- [2.3. Call the method](#23-call-the-method)
+	- [2.2. Call the method](#23-call-the-method)
 - [3. Documentation](#3-documentation)
 # 1. About caso
 caso (CAuchy SOlver) - this is header-only C++ library for solving Cauchy problem using numerical methods.
 
-There are 5 methods: ```Runge-Kutta```, ```Forward Euler```, ```Backward Euler```, ```midpoint```, ```implicit midpoint``` and 5 Butcher tableaus for Runge-Kutta method.
+There are 9 methods: ```rungeKutta4```, ```rungeKuttaDormandPrince8```, ```heun2```, ```rungeKuttaFehlberg6```, ```rungeKuttaBogackiShampine4```, ```forwardEuler```, ```backwardEuler```, ```midpoint```, ```implicitMidpoint```.
 # 2. Usage
 Let's take $$y''' + 3y'' + 3y' + y - x = 0, \quad y(0) = -1, \quad y'(0) = 2, \quad y''(0) = 3, \quad x \in [0, 1], \quad h = 0.01$$ Cauchy problem and solve it.
 
@@ -25,6 +24,9 @@ void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
 ```
 And here are a few ways to set initial conditions of Cauchy problem:
 ```Cpp
+caso::ODE myEquation(your system of equations, vector of starting Y values, left x border, right x border, step);
+```
+```Cpp
 caso::ODE myEquation(f, {-1, 2, 3}, 0, 1);
 ```
 ```Cpp
@@ -40,38 +42,15 @@ myEquation.setEquationWithSystem(f);
 myEquation.setStartValuesAndBorders({-1, 2, 3}, 0, 1, 0.01);
 ```
 
-## 2.2 Butcher tableau
-Set the Butcher tableau for your method (if it is Runge-Kutta)
-There are 5 Butcher tableaus for Runge-Kutta method:
-```RungeKutta4```,
-```DormanPrince8```,
-```Heun2```,
-```Fehlberg6```,
-```BogackiShampine4```
-```Cpp
-myEquation.setButcherTableau(caso::RungeKutta4);
-```
-
-## 2.3 Call the method
+## 2.2 Call the method
 It will return std::vector<double> = { $y^{(n)}, y^{(n-1)},..., y'', y'$ }
 ```Cpp
-std::vector<double> answer = myEquation.rungeKutta();
+std::vector<double> answer = myEquation.rungeKutta4();
 ```
-```Cpp
-std::vector<double> answer = myEquation.forwardEuler();
-```
-```Cpp
-std::vector<double> answer = myEquation.backwardEuler();
-```
-```Cpp
-std::vector<double> answer = myEquation.midpoint();
-```
-```Cpp
-std::vector<double> answer = myEquation.implicitMidpoint();
-```
+
 you can also set a step if you didn't set it during initialization or want to try another one for a solution.
 ```Cpp
-std::vector<double> answer = myEquation.rungeKutta(0.01);
+std::vector<double> answer = myEquation.rungeKutta4(0.01);
 ```
 
 # 3. Documentation
