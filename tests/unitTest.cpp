@@ -11,6 +11,7 @@
 
 using json = nlohmann::json;
 
+std::vector<double> answer;
 std::vector<double> dydx;
 std::vector<double> y {2};
 
@@ -19,7 +20,7 @@ std::vector<double> y {2};
 std::string equation;
 std::string method;
 
-double xl = 0.0, xr = 3.0, xs = 0.25, x = 0.0;
+double xl = 0.0, xr = 3.0, xs = 0.25, x = 0.0, comparableAnswer = 0.0;
 
 void returnValuesToDefault(){
     xl = 0.0;
@@ -120,14 +121,18 @@ void function4(std::vector<double>& dydx, std::vector<double>& y, double x) {
     dydx[0] = 2 * y[0];
 }
 
+void function5(std::vector<double>& dydx, std::vector<double>& y, double x) {
+    dydx[0] = (-1) * y[0] + x;
+}
+
 TEST_CASE("All tests passed", "[caso]") {
     SECTION( "Answer equality" ) {
         equation = "-2xy";
         method = "runge kutta";
-        double comparableAnswer = getComparableAnswer(method);
+        comparableAnswer = getComparableAnswer(method);
 
         caso::ODE testObjectRungeKutta(function1, y, xl, xr, xs);
-        std::vector<double> answer = testObjectRungeKutta.rungeKutta4();
+        answer = testObjectRungeKutta.rungeKutta4();
         
         for (auto i : answer){
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
@@ -161,7 +166,30 @@ TEST_CASE("All tests passed", "[caso]") {
         comparableAnswer = getComparableAnswer(method);
 
         caso::ODE testObjectHeun(function4, y, xl, xr, xs);
-        answer = testObjectHeun.heunEuler2();
+        answer = testObjectHeun.heun2();
+
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        }
+
+
+        equation = "-y+x";
+        method = "Runge Kutta Fehlberg";
+        comparableAnswer = getComparableAnswer(method);
+
+        caso::ODE testObjectRungeKuttaFehlberg(function5, y, xl, xr, xs);
+        answer = testObjectRungeKuttaFehlberg.rungeKuttaFehlberg6();
+
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        }
+
+        equation = "-2xy";
+        method = "Bogacki Shampine";
+        comparableAnswer = getComparableAnswer(method);
+
+        caso::ODE testObjectBogackiShampine(function1, y, xl, xr, xs);
+        answer = testObjectBogackiShampine.rungeKuttaBogackiShampine4();
 
         for (auto i : answer){
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
@@ -174,10 +202,10 @@ TEST_CASE("All tests passed", "[caso]") {
 
 //     equation = "-2xy";
 //     method = "runge kutta";
-//     double comparableAnswer = getComparableAnswer(method);
+//     comparableAnswer = getComparableAnswer(method);
 
 //     caso::ODE testObjectRungeKutta(function1, y, xl, xr, xs);
-//     std::vector<double> answer = testObjectRungeKutta.rungeKutta4();
+//     answer = testObjectRungeKutta.rungeKutta4();
 
 //     equation = "2x+y";
 //     method = "backward euler";
@@ -198,23 +226,31 @@ TEST_CASE("All tests passed", "[caso]") {
 //     // std::cout << stepwiseResults <<std::endl;
 //     // std::cout << comparableAnswer <<std::endl;
     
+//     equation = "2y";
+//     method = "Heun";
+//     comparableAnswer = getComparableAnswer(method);
+
+//     caso::ODE testObjectHeun(function4, y, xl, xr, xs);
+//     answer = testObjectHeun.heun2();
+
+//     // equation = "-2xy";
+//     // method = "Bogacki Shampine";
+//     // comparableAnswer = getComparableAnswer(method);
+
+//     // caso::ODE testObjectBogackiShampine(function1, y, xl, xr, xs);
+//     // answer = testObjectBogackiShampine.rungeKuttaBogackiShampine4();
+    
+//     std::cout<<comparableAnswer * 1e9 / 1e9<<std::endl;
+//     for (auto i : answer) {
+//         std::cout<<i * 1e9 / 1e9<<std::endl;
+//     }
 
 //     // for (auto i : answer) {
-//     //     if (round(comparableAnswer / 1e9) == round(i / 1e9)){
+//     //     if (comparableAnswer == i){
 //     //         std::cout<<"Good!"<<std::endl;
 //     //     }
 //     //     else{
 //     //         std::cout<<"Bad!"<<std::endl;
 //     //     }
 //     // }
-//     equation = "2y";
-//     method = "Heun";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectHeun(function4, y, xl, xr, xs);
-//     answer = testObjectHeun.heunEuler2();
-
-//     for (auto i : answer) {
-//         std::cout<<i<<std::endl;
-//     }
 // }
