@@ -84,9 +84,9 @@ namespace caso {
          * @brief Solves ODE with Runge-Kutta method.
          * @param step Step or h for X
          */
-        std::vector<double> heunEuler2(double step = -1.0) {
-            currentIterFunction = &caso::ODE::heunEuler2Iteration;
-            currentButcherTableau = butcherTablesMap[HeunEuler2];
+        std::vector<double> heun2(double step = -1.0) {
+            currentIterFunction = &caso::ODE::heun2Iteration;
+            currentButcherTableau = butcherTablesMap[Heun2];
             return solveMethod(step);
         }
 
@@ -163,13 +163,14 @@ namespace caso {
             currentY = yStart;
             size_t n = 0;
             while(xLeft < xRight) {
+                std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << "   step : " << xStep << std::endl;
                 // if(n%100 == 0)
                 //     std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << std::endl;
                 (this->*currentIterFunction)();
                 xLeft += xStep;
                 n++;
             }
-            std::cout << "n : " << n << std::endl;
+            std::cout << "n : " << n << "   x : " << xLeft << "   y : " << currentY[0] << "   step : " << xStep << std::endl;
             return currentY;
         }
 
@@ -211,28 +212,28 @@ namespace caso {
             }
             addVectorByScalar(currentY, temp, xStep);
 
-            if(currentButcherTableau != butcherTablesMap[RungeKutta4]) {
-                changeStep(k);
-            }
+            changeStep(k);
+            // double midY = std::accumulate(temp.begin(), temp.end(), 0) / temp.size();
+            // double midZ = 0;//std::accumulate(temp1.begin(), temp1.end(), 0) / temp1.size();
+            // double error = std::abs(midY - midZ);
+            // double eps = 1e-4;
+            // xStep *= 0.9 * std::pow(((eps * xStep) / (2 * error)), 1. / 5); 
         }
 
         /**
          * @brief Implementation of the universal Runge-Kutta algorithm iteration. If necessary, calls the adaptive step function.
          */
-        void heunEuler2Iteration() {
+        void heun2Iteration() {
             std::vector<std::vector<double>> k(currentButcherTableau.size() - 1, std::vector<double>(currentY.size()));
-            std::vector<double> temp(currentY.size());
-            computeK(k);
+            std::vector<double> temp = currentY;
+            odeSystem(k[0], currentY, xLeft);
+            addVectorByScalar(temp, k[0], xStep * 2. / 3.);
+            odeSystem(k[1], temp, xLeft + xStep * 2. / 3.);
 
-            for(size_t i = 0; i < currentButcherTableau.back().size(); i++) {
-
-                addVectorByScalar(temp, k[i], currentButcherTableau[currentButcherTableau.size() - 2][i]);
-            }
+            std::fill(temp.begin(), temp.end(), 0);
+            addVectorByScalar(temp, k[0], 1. / 4.);
+            addVectorByScalar(temp, k[1], 3. / 4.);
             addVectorByScalar(currentY, temp, xStep);
-
-            if(currentButcherTableau != butcherTablesMap[RungeKutta4]) {
-                changeStep(k);
-            }
         }
 
         /**
@@ -249,9 +250,7 @@ namespace caso {
             }
             addVectorByScalar(currentY, temp, xStep);
 
-            if(currentButcherTableau != butcherTablesMap[RungeKutta4]) {
-                changeStep(k);
-            }
+            changeStep(k);
         }
 
         /**
@@ -280,6 +279,42 @@ namespace caso {
             }
 
             currentY = temp;
+            //double error = computeError(k);
+
+            changeStep(k);
+            // double midY = std::accumulate(temp.begin(), temp.end(), 0) / temp.size();
+            // double midZ = std::accumulate(temp1.begin(), temp1.end(), 0) / temp1.size();
+            // double error = std::abs(midY - midZ);
+            // const double tolerance = 1e-8;
+            // //double error = std::abs(computeError(k));
+            // //xStep = std::pow((tolerance * xStep / (2 * error)), 1. / (currentButcherTableau.back().size() - 2));
+            // xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2. * error), 1. / (currentButcherTableau.back().size() - 2)), 0.3), 2.0);
+            // if(error < tolerance) {
+            //     currentY[0] += error;
+            //     //xStep *= 0.9 * std::min(std::max(std::pow(tolerance * xStep / (2. * error), 1. / (currentButcherTableau.back().size() - 2)), 0.3), 2.0);
+            //     //xStep--;
+            // } 
+            // double eps = 1e-5;
+            // xStep *= std::pow(((eps * xStep) / (2 * error)), 1. / 5); 
+
+
+            // double aTol = 1e-100;
+            // double rTol = 1e-100;
+            // double tolh = aTol + rTol * std::max(std::abs(midY), std::abs(midZ));
+            // double En = std::abs(error / tolh);
+            
+            // if(std::abs(midY - midZ) < 1e-7) {
+            //     xStep += xStep;
+            // } else {
+            //     xStep *= 0.5;
+            // }
+
+
+
+            //double err = doStep(xStep, derivFuncs, nDepVars, vars[0], &vars[2], 2, &vars[3], 2);
+            //newStep1 = xStep * k_reduc * std::pow(tolerance/err, 1.0/((double)k_porder+1.0));
+            //newStep2 = xStep * 10;
+            //xStep = newstep1<newstep2 ? newStep1 : newStep2;
         }
 
         /**
@@ -355,12 +390,15 @@ namespace caso {
          */
         void changeStep(const std::vector<std::vector<double>>& k) {
             const double tolerance = 1e-4;
-            double error = computeError(k);
-            xStep *= std::pow((1 / error), 1. / (currentButcherTableau.size() - 2 + 1));
-            // if(std::abs(error) < tolerance) {
+            double error = std::abs(computeError(k));
+            xStep *= 0.9 * std::pow((tolerance * xStep / (2 * error)), 1. / (currentButcherTableau.back().size() - 2));
+
+            //xStep *= 0.9 * std::min(std::max(std::pow(tolerance * xStep / (2. * error), 1. / (currentButcherTableau.back().size() - 2)), 0.3), 2.0);
+            //xStep--;
+            // if(error < tolerance) {
                 
-            //     //xStep *= 0.9 * std::min(std::max(std::pow(tolerance / (2.0 * std::abs(error)), 0.5), 0.3), 2.0);
-            //     //xStep--;
+            //     xStep = 0.9 * std::min(std::max(std::pow(tolerance * xStep / (2. * error), 1. / (currentButcherTableau.back().size() - 2)), 0.3), 2.0);
+            //     xStep--;
             // } 
             // else {
             //     xStep *= 2.0;
@@ -460,7 +498,7 @@ namespace caso {
         enum ButcherTableau {
             RungeKutta4,
             RungeKuttaDormandPrince8,
-            HeunEuler2,
+            Heun2,
             RungeKuttaFehlberg6,
             RungeKuttaBogackiShampine4
         };
@@ -508,12 +546,10 @@ namespace caso {
                 }
             },
             {
-                HeunEuler2, {
+                Heun2, {
                     {0.},
-                    {1., 1.},
-                        {1. / 2., 1. / 2.},
-                        {1., 0.},
-                        
+                    {2. / 3., 2. / 3.},
+                        {1. / 4., 3. / 4.}
                 }
             },
             {
