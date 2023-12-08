@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['heuneuler2_92',['HeunEuler2',['../classcaso_1_1ODE.html#a3ae31ff819622d878b051ce22d89e990a8fe52f9ea51b194d82fd2a406d8c74c6',1,'caso::ODE']]]
+  ['heun2_92',['Heun2',['../classcaso_1_1ODE.html#a3ae31ff819622d878b051ce22d89e990ab6dfa3be27fd973946b789039f592d8a',1,'caso::ODE']]]
 ];
