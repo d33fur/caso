@@ -35,5 +35,9 @@ build/
 doc/
 
 tests/__pycache__/
+tests/output.json
 tests/.pytest_cache/
 .vscode/
+tests/nlohmann/
+.DS_Store
+tests/env.cpp
