@@ -15,6 +15,9 @@ Add ```#include "caso.h"``` into your project.
 ## 2.1 Start
 First of all you need to initialize an instance of the ODE class.
 You can do this with function for system of equations:
+$$y' = y_2$$
+$$y'' = y_3$$
+$$y''' = -3 * y_3 - 3 * y_2 - y_1 + x$$
 ```Cpp
 void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
     dydx[0] = y[1];
@@ -23,9 +26,8 @@ void f(double x, std::vector<double>& y, std::vector<double>& dydx) {
 }
 ```
 And here are a few ways to set initial conditions of Cauchy problem:
-```Cpp
-caso::ODE myEquation(your system of equations, vector of starting Y values, left x border, right x border, step);
-```
+
+```caso::ODE myEquation(your system of equations, vector of starting Y values, left x border, right x border, step);```
 ```Cpp
 caso::ODE myEquation(f, {-1, 2, 3}, 0, 1);
 ```
