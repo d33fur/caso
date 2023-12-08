@@ -54,6 +54,7 @@ you can also set a step if you didn't set it during initialization or want to tr
 ```Cpp
 std::vector<double> answer = myEquation.rungeKutta4(0.01);
 ```
+Look at [1. About caso](#1-about-caso) for all methods.
 
 # 3. Documentation
 [Documentation](https://d33fur.github.io/caso/index.html)
