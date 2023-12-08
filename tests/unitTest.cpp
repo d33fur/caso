@@ -112,6 +112,14 @@ void function2(std::vector<double>& dydx, std::vector<double>& y, double x) {
     dydx[0] = 2 * x + y[0];
 }
 
+void function3(std::vector<double>& dydx, std::vector<double>& y, double x) {
+    dydx[0] = std::pow(M_E, x) - y[0];
+}
+
+void function4(std::vector<double>& dydx, std::vector<double>& y, double x) {
+    dydx[0] = 2 * y[0];
+}
+
 TEST_CASE("All tests passed", "[caso]") {
     SECTION( "Answer equality" ) {
         equation = "-2xy";
@@ -122,7 +130,7 @@ TEST_CASE("All tests passed", "[caso]") {
         std::vector<double> answer = testObjectRungeKutta.rungeKutta4();
         
         for (auto i : answer){
-            REQUIRE(round(comparableAnswer / 1e9) == round(i / 1e9));
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
         }
 
         equation = "2x+y";
@@ -133,36 +141,80 @@ TEST_CASE("All tests passed", "[caso]") {
         answer = testObjectBackwardEuler.backwardEuler();
 
         for (auto i : answer){
-            REQUIRE(round(comparableAnswer / 1e9) == round(i / 1e9));
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        }
+
+        // equation = "exp(x)-y";
+        // equation = "2y";
+        // method = "Dormand Prince";
+        // comparableAnswer = getComparableAnswer(method);
+
+        // caso::ODE testObjectDormandPrince(function4, y, xl, xr, xs);
+        // answer = testObjectDormandPrince.rungeKuttaDormandPrince8();
+
+        // for (auto i : answer){
+        //     REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        // }
+
+        equation = "2y";
+        method = "Heun";
+        comparableAnswer = getComparableAnswer(method);
+
+        caso::ODE testObjectHeun(function4, y, xl, xr, xs);
+        answer = testObjectHeun.heunEuler2();
+
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
         }
     }
 }
 
 // int main(){
-//     //xl = xr - 1; //test case
+//     // xl = xr - 1; //test case
 
-//     json data = getWolframData();
-//     std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
-//     double comparableAnswer = getWolframAnswer(stepwiseResults);
+//     equation = "-2xy";
+//     method = "runge kutta";
+//     double comparableAnswer = getComparableAnswer(method);
 
-//     caso::ODE testObject(function1, y, xl, xr, xs);
-//     std::vector<double> answer = testObject.rungeKutta4();
+//     caso::ODE testObjectRungeKutta(function1, y, xl, xr, xs);
+//     std::vector<double> answer = testObjectRungeKutta.rungeKutta4();
+
+//     equation = "2x+y";
+//     method = "backward euler";
+//     comparableAnswer = getComparableAnswer(method);
+
+//     caso::ODE testObjectBackwardEuler(function2, y, xl, xr, xs);
+//     answer = testObjectBackwardEuler.backwardEuler();
+
+//     // equation = "exp(x)-y";
+//     equation = "2y";
+//     method = "Dormand Prince";
+//     comparableAnswer = getComparableAnswer(method);
+
+//     caso::ODE testObjectDormandPrince(function4, y, xl, xr, xs);
+//     answer = testObjectDormandPrince.rungeKuttaDormandPrince8();
     
 //     // std::cout << data <<std::endl;
 //     // std::cout << stepwiseResults <<std::endl;
 //     // std::cout << comparableAnswer <<std::endl;
     
 
-//     for (auto i : answer) {
-//         if (round(comparableAnswer / 1e9) == round(i / 1e9)){
-//             std::cout<<"Good!"<<std::endl;
-//         }
-//         else{
-//             std::cout<<"Bad!"<<std::endl;
-//         }
-//     }
-
 //     // for (auto i : answer) {
-//     //     std::cout<<i<<std::endl;
+//     //     if (round(comparableAnswer / 1e9) == round(i / 1e9)){
+//     //         std::cout<<"Good!"<<std::endl;
+//     //     }
+//     //     else{
+//     //         std::cout<<"Bad!"<<std::endl;
+//     //     }
 //     // }
+//     equation = "2y";
+//     method = "Heun";
+//     comparableAnswer = getComparableAnswer(method);
+
+//     caso::ODE testObjectHeun(function4, y, xl, xr, xs);
+//     answer = testObjectHeun.heunEuler2();
+
+//     for (auto i : answer) {
+//         std::cout<<i<<std::endl;
+//     }
 // }
