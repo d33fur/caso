@@ -24,20 +24,20 @@ void f3(std::vector<double>& dydx, std::vector<double>& y, double x) {
 }
 
 void f4(std::vector<double>& dydx, std::vector<double>& y, double x) {
-    dydx[0] = -2 * y[0];
+    dydx[0] = -2 * y[0] * y[0];
 }
 
 int main() {
-    std::cout << std::endl << "RungeKutta4" << std::endl;
+    // std::cout << std::endl << "RungeKutta4" << std::endl;
 
     std::vector<double> y = {2};
     double xl = 1, xr = 3, xs = 0.25;
     
-    caso::ODE a(f3, y, 0, xr, xs);
-    std::vector<double> ansa = a.rungeKutta4();
-    for(auto i : ansa) {
-        std::cout << std::fixed << std::setprecision(10) << i << ' ';
-    }
+    // caso::ODE a(f3, y, 0, xr, xs);
+    // std::vector<double> ansa = a.rungeKutta4();
+    // for(auto i : ansa) {
+    //     std::cout << std::fixed << std::setprecision(10) << i << ' ';
+    // }
 
     std::cout << std::endl << "DormanPrince8" << std::endl;
 
@@ -47,13 +47,13 @@ int main() {
         std::cout << std::fixed << std::setprecision(10) << i << ' ';
     }
 
-    std::cout << std::endl << "Heun2" << std::endl;
+    // std::cout << std::endl << "Heun2" << std::endl;
 
-    caso::ODE c1(f3, y, 0, xr, xs);
-    std::vector<double> ansc1 = c1.heunEuler2();
-    for(auto i : ansc1) {
-        std::cout << std::fixed << std::setprecision(10) << i << ' ';
-    }
+    // caso::ODE c1(f3, y, 0, xr, xs);
+    // std::vector<double> ansc1 = c1.heun2();
+    // for(auto i : ansc1) {
+    //     std::cout << std::fixed << std::setprecision(10) << i << ' ';
+    // }
 
     std::cout << std::endl << "Fehlberg6" << std::endl;
 
