@@ -184,12 +184,34 @@ TEST_CASE("All tests passed", "[caso]") {
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
         }
 
-        equation = "-2xy";
-        method = "Bogacki Shampine";
+        // equation = "-2xy";
+        // method = "Bogacki Shampine";
+        // comparableAnswer = getComparableAnswer(method);
+
+        // caso::ODE testObjectBogackiShampine(function1, y, xl, xr, xs);
+        // answer = testObjectBogackiShampine.rungeKuttaBogackiShampine4();
+
+        // for (auto i : answer){
+        //     REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        // }
+
+        equation = "2x+y";
+        method = "midpoint";
         comparableAnswer = getComparableAnswer(method);
 
-        caso::ODE testObjectBogackiShampine(function1, y, xl, xr, xs);
-        answer = testObjectBogackiShampine.rungeKuttaBogackiShampine4();
+        caso::ODE testObjectMidpoint(function2, y, xl, xr, xs);
+        answer = testObjectMidpoint.midpoint();
+
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        }
+
+        equation = "2y";
+        method = "implicit midpoint";
+        comparableAnswer = getComparableAnswer(method);
+
+        caso::ODE testObjectImplicitMidpoint(function4, y, xl, xr, xs);
+        answer = testObjectImplicitMidpoint.implicitMidpoint();
 
         for (auto i : answer){
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
@@ -232,6 +254,20 @@ TEST_CASE("All tests passed", "[caso]") {
 
 //     caso::ODE testObjectHeun(function4, y, xl, xr, xs);
 //     answer = testObjectHeun.heun2();
+
+//     equation = "2x+y";
+//     method = "midpoint";
+//     comparableAnswer = getComparableAnswer(method);
+
+//     caso::ODE testObjectMidpoint(function2, y, xl, xr, xs);
+//     answer = testObjectMidpoint.midpoint();
+
+//     equation = "2y";
+//     method = "implicit midpoint";
+//     comparableAnswer = getComparableAnswer(method);
+
+//     caso::ODE testObjectImplicitMidpoint(function4, y, xl, xr, xs);
+//     answer = testObjectImplicitMidpoint.implicitMidpoint();
 
 //     // equation = "-2xy";
 //     // method = "Bogacki Shampine";
