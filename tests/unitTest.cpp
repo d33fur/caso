@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <cpr/cpr.h>
 #include "nlohmann/json.hpp"
-#include "env.cpp"
+#include "../env.h"
 #include <cmath>
 
 using json = nlohmann::json;
