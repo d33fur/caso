@@ -16,9 +16,7 @@ add_executable(tests tests/unitTest.cpp)
 
 add_executable(${PROJECT_NAME} main.cpp caso.h)
 
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(tests PRIVATE cpr::cpr)
-target_link_libraries(tests PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain cpr::cpr nlohmann_json::nlohmann_json)
 
 if(DOXYGEN_FOUND)
     set(DOXYGEN_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
