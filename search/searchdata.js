@@ -5,10 +5,8 @@ var indexSectionsWithContent =
   2: "c",
   3: "c",
   4: "abcfhimorsv~",
-  5: "bcoxy",
-  6: "io",
-  7: "b",
-  8: "hr"
+  5: "coxy",
+  6: "io"
 };
 
 var indexSectionNames =
@@ -19,9 +17,7 @@ var indexSectionNames =
   3: "files",
   4: "functions",
   5: "variables",
-  6: "typedefs",
-  7: "enums",
-  8: "enumvalues"
+  6: "typedefs"
 };
 
 var indexSectionLabels =
@@ -32,8 +28,6 @@ var indexSectionLabels =
   3: "Files",
   4: "Functions",
   5: "Variables",
-  6: "Typedefs",
-  7: "Enumerations",
-  8: "Enumerator"
+  6: "Typedefs"
 };
 
