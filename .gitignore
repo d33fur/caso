@@ -40,4 +40,3 @@ tests/.pytest_cache/
 .vscode/
 tests/nlohmann/
 .DS_Store
-env.h

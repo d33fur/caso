@@ -6,8 +6,9 @@
 #include <iomanip>
 #include <cpr/cpr.h>
 #include "nlohmann/json.hpp"
-#include "../env.h"
 #include <cmath>
+
+const std::string wolframApiKey = "YOUR_VOLFRAM_API_KEY";
 
 using json = nlohmann::json;
 
@@ -15,8 +16,6 @@ std::vector<double> answer;
 std::vector<double> dydx;
 std::vector<double> y {2};
 
-// std::string equation = "3x^2*y+x^2*e^(x^3)";
-// std::string equation = "2x+y";
 std::string equation;
 std::string method;
 
@@ -94,10 +93,6 @@ double getWolframAnswer(std::string response){
     return apiAsnwer;
 }
 
-// void function1(std::vector<double>& dydx, std::vector<double>& y, double x) {
-//     dydx[0] = 3 * x * x * y[0] + x * x * std::pow(M_E, std::pow(x, 3));
-// }
-
 double getComparableAnswer(std::string methodName){
     json data = getWolframData(methodName);
     std::string stepwiseResults = data["queryresult"]["pods"][2]["subpods"][0]["plaintext"];
@@ -149,18 +144,6 @@ TEST_CASE("All tests passed", "[caso]") {
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
         }
 
-        // equation = "exp(x)-y";
-        // equation = "2y";
-        // method = "Dormand Prince";
-        // comparableAnswer = getComparableAnswer(method);
-
-        // caso::ODE testObjectDormandPrince(function4, y, xl, xr, xs);
-        // answer = testObjectDormandPrince.rungeKuttaDormandPrince8();
-
-        // for (auto i : answer){
-        //     REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
-        // }
-
         equation = "2y";
         method = "Heun";
         comparableAnswer = getComparableAnswer(method);
@@ -183,17 +166,6 @@ TEST_CASE("All tests passed", "[caso]") {
         for (auto i : answer){
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
         }
-
-        // equation = "-2xy";
-        // method = "Bogacki Shampine";
-        // comparableAnswer = getComparableAnswer(method);
-
-        // caso::ODE testObjectBogackiShampine(function1, y, xl, xr, xs);
-        // answer = testObjectBogackiShampine.rungeKuttaBogackiShampine4();
-
-        // for (auto i : answer){
-        //     REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
-        // }
 
         equation = "2x+y";
         method = "midpoint";
@@ -218,75 +190,3 @@ TEST_CASE("All tests passed", "[caso]") {
         }
     }
 }
-
-// int main(){
-//     // xl = xr - 1; //test case
-
-//     equation = "-2xy";
-//     method = "runge kutta";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectRungeKutta(function1, y, xl, xr, xs);
-//     answer = testObjectRungeKutta.rungeKutta4();
-
-//     equation = "2x+y";
-//     method = "backward euler";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectBackwardEuler(function2, y, xl, xr, xs);
-//     answer = testObjectBackwardEuler.backwardEuler();
-
-//     // equation = "exp(x)-y";
-//     equation = "2y";
-//     method = "Dormand Prince";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectDormandPrince(function4, y, xl, xr, xs);
-//     answer = testObjectDormandPrince.rungeKuttaDormandPrince8();
-    
-//     // std::cout << data <<std::endl;
-//     // std::cout << stepwiseResults <<std::endl;
-//     // std::cout << comparableAnswer <<std::endl;
-    
-//     equation = "2y";
-//     method = "Heun";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectHeun(function4, y, xl, xr, xs);
-//     answer = testObjectHeun.heun2();
-
-//     equation = "2x+y";
-//     method = "midpoint";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectMidpoint(function2, y, xl, xr, xs);
-//     answer = testObjectMidpoint.midpoint();
-
-//     equation = "2y";
-//     method = "implicit midpoint";
-//     comparableAnswer = getComparableAnswer(method);
-
-//     caso::ODE testObjectImplicitMidpoint(function4, y, xl, xr, xs);
-//     answer = testObjectImplicitMidpoint.implicitMidpoint();
-
-//     // equation = "-2xy";
-//     // method = "Bogacki Shampine";
-//     // comparableAnswer = getComparableAnswer(method);
-
-//     // caso::ODE testObjectBogackiShampine(function1, y, xl, xr, xs);
-//     // answer = testObjectBogackiShampine.rungeKuttaBogackiShampine4();
-    
-//     std::cout<<comparableAnswer * 1e9 / 1e9<<std::endl;
-//     for (auto i : answer) {
-//         std::cout<<i * 1e9 / 1e9<<std::endl;
-//     }
-
-//     // for (auto i : answer) {
-//     //     if (comparableAnswer == i){
-//     //         std::cout<<"Good!"<<std::endl;
-//     //     }
-//     //     else{
-//     //         std::cout<<"Bad!"<<std::endl;
-//     //     }
-//     // }
-// }
