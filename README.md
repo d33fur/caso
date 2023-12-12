@@ -6,7 +6,7 @@
 # 1. About caso
 caso (CAuchy SOlver) - this is header-only C++ library for solving Cauchy problem using numerical methods.
 
-There are 9 methods: ```rungeKutta4```, ```rungeKuttaDormandPrince8```, ```heun2```, ```rungeKuttaFehlberg6```, ```rungeKuttaBogackiShampine4```, ```forwardEuler```, ```backwardEuler```, ```midpoint```, ```implicitMidpoint```.
+There are 6 methods: ```rungeKutta4```, ```heun2```, ```forwardEuler```, ```backwardEuler```, ```midpoint```, ```implicitMidpoint```.
 # 2. Usage
 Let's take $$y''' + 3y'' + 3y' + y - x = 0, \quad y(0) = -1, \quad y'(0) = 2, \quad y''(0) = 3, \quad x \in [0, 1], \quad h = 0.01$$ Cauchy problem and solve it.
 
