@@ -1,0 +1,1 @@
+const std::string wolframApiKey = "YOUR_VOLFRAM_API_KEY";

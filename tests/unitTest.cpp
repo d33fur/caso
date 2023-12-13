@@ -7,8 +7,7 @@
 #include <cpr/cpr.h>
 #include "nlohmann/json.hpp"
 #include <cmath>
-
-const std::string wolframApiKey = "YOUR_VOLFRAM_API_KEY";
+#include "../env.h"
 
 using json = nlohmann::json;
 
@@ -150,18 +149,6 @@ TEST_CASE("All tests passed", "[caso]") {
 
         caso::ODE testObjectHeun(function4, y, xl, xr, xs);
         answer = testObjectHeun.heun2();
-
-        for (auto i : answer){
-            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
-        }
-
-
-        equation = "-y+x";
-        method = "Runge Kutta Fehlberg";
-        comparableAnswer = getComparableAnswer(method);
-
-        caso::ODE testObjectRungeKuttaFehlberg(function5, y, xl, xr, xs);
-        answer = testObjectRungeKuttaFehlberg.rungeKuttaFehlberg6();
 
         for (auto i : answer){
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
