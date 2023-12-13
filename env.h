@@ -1,1 +1,1 @@
-const std::string wolframApiKey = "YOUR_VOLFRAM_API_KEY";
+const std::string wolframApiKey = "YOUR_WOLFRAM_API_KEY";

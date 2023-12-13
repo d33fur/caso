@@ -6,8 +6,8 @@
 #include <iomanip>
 #include <cpr/cpr.h>
 #include "nlohmann/json.hpp"
-#include <cmath>
 #include "../env.h"
+#include <cmath>
 
 using json = nlohmann::json;
 
@@ -128,6 +128,17 @@ TEST_CASE("All tests passed", "[caso]") {
         caso::ODE testObjectRungeKutta(function1, y, xl, xr, xs);
         answer = testObjectRungeKutta.rungeKutta4();
         
+        for (auto i : answer){
+            REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
+        }
+
+        equation = "-y+x";
+        method = "forward euler";
+        comparableAnswer = getComparableAnswer(method);
+
+        caso::ODE testObjectForwardEuler(function5, y, xl, xr, xs);
+        answer = testObjectForwardEuler.forwardEuler();
+
         for (auto i : answer){
             REQUIRE(round(comparableAnswer * 1e9 / 1e9) == round(i * 1e9 / 1e9));
         }
